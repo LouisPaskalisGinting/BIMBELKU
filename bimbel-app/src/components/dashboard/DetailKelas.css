@@ -1,0 +1,19 @@
+/* container hasil pencarian */
+.search-result {
+  position: absolute;
+  background: white;
+  border: 1px solid #ccc;
+  width: 300px;
+  z-index: 999;
+}
+
+/* item hasil pencarian */
+.search-item {
+  padding: 8px;
+  cursor: pointer;
+  border-bottom: 1px solid #eee;
+}
+
+.search-item:hover {
+  background: #f2f2f2;
+}

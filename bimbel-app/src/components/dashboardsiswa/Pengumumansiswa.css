@@ -1,0 +1,11 @@
+.notif {
+  background: #ffe082;
+  padding: 10px;
+  margin-bottom: 10px;
+  border-radius: 8px;
+}
+
+.highlight {
+  border: 2px solid #ff9800;
+  background: #fff8e1;
+}

@@ -1,0 +1,81 @@
+import React from "react";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+
+import LandingPage from "./components/LandingPage";
+import Login from "./components/Login";
+import Dashboard from "./components/Dashboard";
+import DashboardAdmin from "./components/dashboard/DashboardAdmin";
+import Register from "./components/Register";
+
+import DataSiswa from "./components/dashboard/DataSiswa";
+import DataTentor from "./components/dashboard/DataTentor";
+import Kelas from "./components/dashboard/Kelas";
+import Pembayaran from "./components/dashboard/Pembayaran";
+import Absensi from "./components/dashboard/Absensi";
+import Nilai from "./components/dashboard/Nilai";
+import Jadwal from "./components/dashboard/Jadwal";
+import Pengumuman from "./components/dashboard/Pengumuman";
+import AdminLayout from "./components/AdminLayout";
+import TambahTentor from "./components/dashboard/TambahTentor";
+import DetailKelas from "./components/dashboard/DetailKelas";
+import Program from "./components/dashboard/Program";
+
+import DashboardSiswa from "./components/dashboardsiswa/DashboardSiswa";
+import DataDiri from "./components/dashboardsiswa/DataDiri";
+import SiswaLayout from "./components/SiswaLayout";
+import JadwalSiswa from "./components/dashboardsiswa/JadwalSiswa";
+import NilaiSiswa from "./components/dashboardsiswa/NilaiSiswa";
+import AbsensiSiswa from "./components/dashboardsiswa/AbsensiSiswa";
+import PembayaranSiswa from "./components/dashboardsiswa/PembayaranSiswa";
+import PengumumanSiswa from "./components/dashboardsiswa/PengumumanSiswa";
+
+import DashboardTentor from "./components/dashboardtentor/DashboardTentor";
+import ForgotPassword from "./components/ForgotPassword";
+import ResetPassword from "./components/ResetPassword";
+
+function App() {
+  return (
+    <Router>
+      <Routes>
+        <Route path="/" element={<LandingPage />} />
+        <Route path="/login" element={<Login />} />
+        <Route path="/register" element={<Register />} />
+        <Route path="/dashboard" element={<Dashboard />} />
+        <Route path="/dashboard-tentor" element={<DashboardTentor />} />
+        <Route path="/forgot-password" element={<ForgotPassword />} />
+        <Route path="/reset-password/:token" element={<ResetPassword />} />
+
+        {/* ADMIN */}
+        <Route element={<AdminLayout />}>
+          <Route path="/dashboard-admin" element={<DashboardAdmin />} />
+          <Route path="/data-siswa" element={<DataSiswa />} />
+          <Route path="/data-tentor" element={<DataTentor />} />
+          <Route path="/kelas" element={<Kelas />} />
+          <Route path="/pembayaran" element={<Pembayaran />} />
+          <Route path="/absensi" element={<Absensi />} />
+          <Route path="/nilai" element={<Nilai />} />
+          <Route path="/jadwal" element={<Jadwal />} />
+          <Route path="/pengumuman" element={<Pengumuman />} />
+          <Route path="/tambahtentor" element={<TambahTentor />} />
+          <Route path="/kelas/:id" element={<DetailKelas />} />
+          <Route path="/program" element={<Program />} />
+          <Route path="/dashboard-tentor" element={<DashboardTentor />} />
+        </Route>
+
+        {/* SISWA */}
+
+        <Route element={<SiswaLayout />}>
+          <Route path="/dashboard-siswa" element={<DashboardSiswa />} />
+          <Route path="/siswa/data-diri" element={<DataDiri />} />
+          <Route path="/siswa/jadwal" element={<JadwalSiswa />} />
+          <Route path="/siswa/nilai" element={<NilaiSiswa />} />
+          <Route path="/siswa/absensi" element={<AbsensiSiswa />} />
+          <Route path="/siswa/pembayaran" element={<PembayaranSiswa />} />
+          <Route path="/siswa/pengumuman" element={<PengumumanSiswa />} />
+        </Route>
+      </Routes>
+    </Router>
+  );
+}
+
+export default App;

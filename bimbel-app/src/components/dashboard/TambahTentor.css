@@ -1,0 +1,35 @@
+.modal-bg {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.4);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.modal-card {
+  background: white;
+  padding: 30px;
+  width: 400px;
+  border-radius: 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.modal-card input {
+  padding: 10px;
+}
+
+.modal-action {
+  display: flex;
+  gap: 10px;
+}
+
+.modal-action button {
+  flex: 1;
+  padding: 10px;
+  background: #467545;
+  color: white;
+  border: none;
+}

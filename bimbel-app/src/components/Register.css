@@ -1,0 +1,69 @@
+/* ====== Container Utama ====== */
+.login-container {
+  width: 100%;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: linear-gradient(135deg, #157635, #0e6911);
+  font-family: "Poppins", sans-serif;
+}
+
+/* ====== Card Form ====== */
+.login-card {
+  background: rgba(255, 255, 255, 0.692);
+  padding: 30px;
+  border-radius: 12px;
+  width: 400px;
+  box-shadow: 0px 10px 25px rgba(0, 0, 0, 0.2);
+  text-align: center;
+}
+
+/* ====== Judul ====== */
+.login-card h2 {
+  margin-bottom: 20px;
+  color: #333;
+}
+
+/* ====== Input Form ====== */
+.login-card input {
+  width: 100%;
+  padding: 10px;
+  margin: 8px 0;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  outline: none;
+  font-size: 14px;
+  transition: 0.3s;
+}
+
+/* Efek saat input diklik */
+.login-card input:focus {
+  border-color: #667eea;
+  box-shadow: 0 0 5px rgba(102, 126, 234, 0.5);
+}
+
+/* ====== Tombol Daftar ====== */
+.btn-login {
+  width: 100%;
+  padding: 10px;
+  margin-top: 15px;
+  background: #08bd47;
+  color: rgb(255, 255, 255);
+  border: none;
+  border-radius: 8px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.btn-login:hover {
+  background: #5563c1;
+}
+
+/* ====== Responsive untuk HP ====== */
+@media (max-width: 500px) {
+  .login-card {
+    width: 90%;
+  }
+}

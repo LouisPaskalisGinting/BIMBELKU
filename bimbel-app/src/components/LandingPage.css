@@ -1,0 +1,341 @@
+body {
+  margin: 0;
+  font-family: "Inter", sans-serif;
+  background: #b9d4aa;
+}
+
+.landing-container {
+  width: 100%;
+}
+
+/* ================= NAVBAR ================= */
+
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px 60px;
+  background: #b9d4aa;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+
+.logo img {
+  height: 45px;
+}
+
+.nav-menu {
+  display: flex;
+  align-items: center;
+  gap: 25px;
+}
+
+.nav-menu span {
+  font-size: 18px;
+  cursor: pointer;
+  font-weight: 500;
+  transition: 0.2s;
+}
+
+.nav-menu span:hover {
+  color: #0b441a;
+}
+
+.btn-login {
+  color: #0b441a;
+  padding: 10px 20px;
+  border: none;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  background: none;
+}
+
+.btn-daftar {
+  background: #0b441a;
+  color: white;
+  border: none;
+  padding: 12px 22px;
+  font-weight: bold;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.btn-daftar:hover {
+  background: #083112;
+}
+
+/* ================= HERO ================= */
+
+.hero {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 100px 80px;
+}
+
+.hero-text h1 {
+  font-size: 90px;
+  color: #0b441a;
+  margin: 0;
+  font-weight: 800;
+}
+
+.hero-text p {
+  font-size: 26px;
+  margin-top: 10px;
+}
+
+.hero-btn {
+  margin-top: 25px;
+  padding: 14px 25px;
+  background: #0b441a;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+.hero-image img {
+  width: 420px;
+}
+
+/* ================= ABOUT ================= */
+
+.about {
+  background: #9ebf8b;
+  padding: 80px 120px;
+  text-align: center;
+}
+
+.about h2 {
+  font-size: 45px;
+  margin-bottom: 20px;
+}
+
+.about p {
+  font-size: 20px;
+  line-height: 1.7;
+  max-width: 900px;
+  margin: auto;
+}
+
+/* ================= PROGRAM ================= */
+
+.program {
+  padding: 80px;
+  text-align: center;
+}
+
+.program h2 {
+  font-size: 45px;
+  margin-bottom: 30px;
+}
+
+.program-scroll {
+  display: flex;
+  overflow-x: auto;
+  gap: 25px;
+  padding: 20px;
+  scroll-behavior: smooth;
+}
+
+.program-scroll::-webkit-scrollbar {
+  display: none;
+}
+/* ===== FIX TEXT PROGRAM ===== */
+
+.program-card {
+  width: 320px;
+  max-width: 320px;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+}
+
+/* deskripsi agar tidak terlalu panjang */
+
+.program-desc {
+  word-break: break-word;
+  line-height: 1.5;
+}
+
+/* judul */
+
+.program-card h3 {
+  word-break: break-word;
+}
+/* ================= PROGRAM GRID FIX ================= */
+.program {
+  max-width: 1200px;
+  margin: auto;
+}
+.program-grid {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 35px;
+}
+.program-grid .program-card {
+  width: 320px;
+  max-width: 320px;
+}
+.program-scroll {
+  display: flex;
+  overflow-x: auto;
+  gap: 25px;
+}
+
+.program-grid .program-card {
+  width: 320px;
+}
+
+.program-card {
+  min-width: 360px;
+  background: white;
+  color: #333;
+  padding: 25px;
+  border-radius: 15px;
+  box-shadow: 0px 6px 18px rgba(0, 0, 0, 0.12);
+  text-align: left;
+  transition: 0.3s;
+}
+
+.program-card:hover {
+  transform: translateY(-6px);
+}
+
+.program-card h3 {
+  font-size: 22px;
+  margin-bottom: 10px;
+  color: #0b441a;
+}
+.program-desc {
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+.benefit-title {
+  font-weight: 600;
+}
+
+.program-card ul {
+  padding-left: 18px;
+  font-size: 15px;
+}
+
+.program-card li {
+  margin-bottom: 5px;
+}
+
+.price-box {
+  background: #0b441a;
+  color: white;
+  padding: 12px;
+  border-radius: 8px;
+  margin-top: 15px;
+  font-weight: bold;
+  text-align: center;
+}
+
+.btn-daftar-card {
+  margin-top: 15px;
+  width: 100%;
+  background: #467545;
+  color: white;
+  padding: 12px;
+  border: none;
+  border-radius: 8px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.btn-daftar-card:hover {
+  background: #2e5c2e;
+}
+
+.note {
+  font-size: 12px;
+  margin-top: 8px;
+  color: #666;
+}
+
+/* ================= TESTIMONI ================= */
+
+.testimoni {
+  padding: 80px;
+  text-align: center;
+}
+
+.testimoni h2 {
+  font-size: 45px;
+  margin-bottom: 20px;
+}
+
+.testimoni-scroll {
+  display: flex;
+  overflow-x: auto;
+  gap: 25px;
+  padding: 20px;
+}
+
+.testimoni-scroll::-webkit-scrollbar {
+  display: none;
+}
+
+.testimoni-card {
+  min-width: 300px;
+  background: white;
+  padding: 25px;
+  border-radius: 15px;
+  box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.1);
+  transition: 0.3s;
+}
+
+.testimoni-card:hover {
+  transform: translateY(-5px);
+}
+
+.testimoni-card img {
+  width: 120px;
+  border-radius: 50%;
+  margin-bottom: 10px;
+}
+
+.pesan {
+  font-style: italic;
+  margin-top: 10px;
+}
+
+.signature {
+  font-size: 12px;
+  margin-top: 10px;
+  color: #777;
+}
+
+/* ================= RESPONSIVE ================= */
+
+@media (max-width: 900px) {
+  .hero {
+    flex-direction: column;
+    text-align: center;
+    gap: 40px;
+  }
+
+  .hero-text h1 {
+    font-size: 60px;
+  }
+
+  .hero-image img {
+    width: 300px;
+  }
+
+  .program-scroll {
+    flex-direction: column;
+    align-items: center;
+  }
+}
