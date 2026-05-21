@@ -2,7 +2,10 @@ import { useEffect, useState } from "react";
 import "./DataDiri.css";
 
 export default function DataDiri() {
-  const siswa = JSON.parse(localStorage.getItem("user"));
+  const siswaData =
+    localStorage.getItem("siswa") || localStorage.getItem("user");
+
+  const siswa = siswaData ? JSON.parse(siswaData) : null;
 
   const [data, setData] = useState({});
   const [edit, setEdit] = useState(false);
@@ -11,6 +14,8 @@ export default function DataDiri() {
   useEffect(() => {
     if (siswa?.id) {
       fetchData();
+    } else {
+      setLoading(false);
     }
   }, []);
 
@@ -19,11 +24,13 @@ export default function DataDiri() {
       const res = await fetch(`http://localhost:3000/siswa/${siswa.id}`);
       const result = await res.json();
 
+      console.log("HASIL FETCH DATA DIRI:", result);
+
       setData(result);
     } catch (err) {
       console.error("ERROR FETCH:", err);
     } finally {
-      setLoading(false); // ✅ WAJIB ADA
+      setLoading(false);
     }
   };
 
@@ -43,11 +50,11 @@ export default function DataDiri() {
         no_hp: data.no_hp,
         nama_orangtua: data.nama_orangtua,
         no_hp_orangtua: data.no_hp_orangtua,
+        program_id: data.program_id,
+        kelas_id: data.kelas_id,
       };
 
-      console.log("DIKIRIM:", payload); // 🔥 debug
-
-      await fetch(`http://localhost:3000/siswa/${siswa.id}`, {
+      const res = await fetch(`http://localhost:3000/siswa/${siswa.id}`, {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",
@@ -55,15 +62,32 @@ export default function DataDiri() {
         body: JSON.stringify(payload),
       });
 
+      const result = await res.json();
+      console.log("UPDATE RESULT:", result);
+
       alert("Data berhasil diupdate ✅");
       setEdit(false);
       fetchData();
     } catch (err) {
-      console.error(err);
+      console.error("ERROR UPDATE:", err);
     }
   };
 
-  if (loading) return <div>Loading data...</div>;
+  if (loading) {
+    return (
+      <div className="datadiri-container">
+        <h2>Loading data...</h2>
+      </div>
+    );
+  }
+
+  if (!siswa) {
+    return (
+      <div className="datadiri-container">
+        <h2>Data siswa tidak ditemukan</h2>
+      </div>
+    );
+  }
 
   return (
     <div className="datadiri-container">
@@ -72,6 +96,7 @@ export default function DataDiri() {
       <div className="datadiri-card">
         <label>Nama</label>
         <input
+          type="text"
           name="nama"
           value={data.nama || ""}
           disabled={!edit}
@@ -80,6 +105,7 @@ export default function DataDiri() {
 
         <label>Email</label>
         <input
+          type="email"
           name="email"
           value={data.email || ""}
           disabled={!edit}
@@ -87,10 +113,11 @@ export default function DataDiri() {
         />
 
         <label>Kelas</label>
-        <input value={data.kelas || "-"} disabled />
+        <input type="text" value={data.nama_kelas || "-"} disabled />
 
         <label>Asal Sekolah</label>
         <input
+          type="text"
           name="asal_sekolah"
           value={data.asal_sekolah || ""}
           disabled={!edit}
@@ -99,6 +126,7 @@ export default function DataDiri() {
 
         <label>No HP</label>
         <input
+          type="text"
           name="no_hp"
           value={data.no_hp || ""}
           disabled={!edit}
@@ -107,6 +135,7 @@ export default function DataDiri() {
 
         <label>Nama Orang Tua</label>
         <input
+          type="text"
           name="nama_orangtua"
           value={data.nama_orangtua || ""}
           disabled={!edit}
@@ -115,6 +144,7 @@ export default function DataDiri() {
 
         <label>No HP Orang Tua</label>
         <input
+          type="text"
           name="no_hp_orangtua"
           value={data.no_hp_orangtua || ""}
           disabled={!edit}
@@ -122,9 +152,8 @@ export default function DataDiri() {
         />
 
         <label>Program</label>
-        <input value={data.nama_program || "-"} disabled />
+        <input type="text" value={data.nama_program || "-"} disabled />
 
-        {/* BUTTON */}
         <div className="button-group">
           {!edit ? (
             <button className="edit-btn" onClick={() => setEdit(true)}>
@@ -135,7 +164,14 @@ export default function DataDiri() {
               <button className="save-btn" onClick={handleSave}>
                 💾 Simpan
               </button>
-              <button className="cancel-btn" onClick={() => setEdit(false)}>
+
+              <button
+                className="cancel-btn"
+                onClick={() => {
+                  setEdit(false);
+                  fetchData();
+                }}
+              >
                 ❌ Batal
               </button>
             </>

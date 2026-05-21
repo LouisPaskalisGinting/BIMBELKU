@@ -9,71 +9,77 @@ export default function Pembayaran() {
   const [showDetail, setShowDetail] = useState(false);
   const [selectedId, setSelectedId] = useState(null);
 
-  const [jumlah, setJumlah] = useState("");
-
   useEffect(() => {
     fetchData();
   }, []);
 
-  // ================= GET DATA =================
   const fetchData = async () => {
+    await fetch("http://localhost:3000/pembayaran/generate", {
+      method: "POST",
+    });
+
     const res = await fetch("http://localhost:3000/pembayaran");
     const result = await res.json();
-    setData(result);
+
+    setData(Array.isArray(result) ? result : []);
   };
 
-  // ================= OPEN DETAIL =================
   const openDetail = async (id) => {
     setSelectedId(id);
 
-    const res = await fetch(
-      `http://localhost:3000/pembayaran/detail/${id}` // ✅ FIX
-    );
+    const res = await fetch(`http://localhost:3000/pembayaran/detail/${id}`);
     const result = await res.json();
 
-    setDetail(result);
+    setDetail(Array.isArray(result) ? result : []);
     setShowDetail(true);
   };
 
-  // ================= TAMBAH PEMBAYARAN =================
-  const tambahPembayaran = async () => {
-    if (!jumlah || jumlah <= 0) {
-      alert("Masukkan jumlah yang valid");
-      return;
-    }
-
-    const res = await fetch(`http://localhost:3000/pembayaran/${selectedId}`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ jumlah: Number(jumlah) }),
-    });
+  const approvePembayaran = async (detailId) => {
+    const res = await fetch(
+      `http://localhost:3000/pembayaran/approve/${detailId}`,
+      {
+        method: "PUT",
+      }
+    );
 
     const result = await res.json();
-
-    if (!res.ok) {
-      alert(result.message);
-      return;
-    }
-
     alert(result.message);
 
-    setJumlah("");
-    openDetail(selectedId); // refresh detail
-    fetchData(); // refresh tabel utama
+    openDetail(selectedId);
+    fetchData();
   };
 
-  // ================= SEARCH =================
+  const rejectPembayaran = async (detailId) => {
+    const catatan = prompt("Masukkan alasan penolakan:");
+
+    const res = await fetch(
+      `http://localhost:3000/pembayaran/reject/${detailId}`,
+      {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          catatan,
+        }),
+      }
+    );
+
+    const result = await res.json();
+    alert(result.message);
+
+    openDetail(selectedId);
+    fetchData();
+  };
+
   const filtered = data.filter((d) =>
-    d.nama.toLowerCase().includes(search.toLowerCase())
+    d.nama?.toLowerCase().includes(search.toLowerCase())
   );
 
   return (
     <div className="pembayaran-page">
-      <h1>Pembayaran</h1>
+      <h1>Pembayaran Admin</h1>
 
-      {/* SEARCH */}
       <input
         className="search-input"
         placeholder="Search siswa..."
@@ -81,71 +87,112 @@ export default function Pembayaran() {
         onChange={(e) => setSearch(e.target.value)}
       />
 
-      {/* TABLE */}
       <table className="pembayaran-table">
         <thead>
           <tr>
             <th>Nama</th>
             <th>Kelas</th>
+            <th>Program</th>
+            <th>Total Tagihan</th>
+            <th>Sudah Dibayar</th>
             <th>Sisa Tagihan</th>
             <th>Aksi</th>
           </tr>
         </thead>
 
         <tbody>
-          {filtered.map((d) => (
-            <tr key={d.id}>
-              <td>{d.nama}</td>
-              <td>{d.kelas}</td>
-              <td>Rp {d.sisa_tagihan?.toLocaleString()}</td>
-
-              <td>
-                <button className="btn-detail" onClick={() => openDetail(d.id)}>
-                  Detail
-                </button>
-              </td>
+          {filtered.length === 0 ? (
+            <tr>
+              <td colSpan="7">Tidak ada data pembayaran</td>
             </tr>
-          ))}
+          ) : (
+            filtered.map((d) => (
+              <tr key={d.id}>
+                <td>{d.nama}</td>
+                <td>{d.nama_kelas || "-"}</td>
+                <td>{d.nama_program || "-"}</td>
+
+                <td>Rp {Number(d.total_tagihan || 0).toLocaleString()}</td>
+
+                <td>Rp {Number(d.sudah_dibayar || 0).toLocaleString()}</td>
+
+                <td>Rp {Number(d.sisa_tagihan || 0).toLocaleString()}</td>
+
+                <td>
+                  <button
+                    className="btn-detail"
+                    onClick={() => openDetail(d.id)}
+                  >
+                    Detail
+                  </button>
+                </td>
+              </tr>
+            ))
+          )}
         </tbody>
       </table>
 
-      {/* ================= MODAL DETAIL ================= */}
       {showDetail && (
         <div className="modal-overlay">
           <div className="modal">
             <h2>Detail Pembayaran</h2>
 
-            {/* FORM TAMBAH BAYAR */}
-            <div className="bayar-form">
-              <input
-                type="number"
-                placeholder="Jumlah bayar"
-                value={jumlah}
-                onChange={(e) => setJumlah(e.target.value)}
-              />
-
-              <button onClick={tambahPembayaran}>Tambah Pembayaran</button>
-            </div>
-
-            {/* RIWAYAT */}
             <table className="detail-table">
               <thead>
                 <tr>
                   <th>Tanggal</th>
                   <th>Jumlah</th>
+                  <th>Bukti</th>
+                  <th>Status</th>
+                  <th>Catatan</th>
+                  <th>Aksi</th>
                 </tr>
               </thead>
 
               <tbody>
                 {detail.length === 0 ? (
                   <tr>
-                    <td colSpan="2">Belum ada pembayaran</td>
+                    <td colSpan="6">Belum ada pembayaran</td>
                   </tr>
                 ) : (
                   detail.map((d) => (
                     <tr key={d.id}>
                       <td>{new Date(d.tanggal).toLocaleString()}</td>
-                      <td>Rp {d.jumlah?.toLocaleString()}</td>
+
+                      <td>Rp {Number(d.jumlah || 0).toLocaleString()}</td>
+
+                      <td>
+                        {d.bukti_pembayaran ? (
+                          <a
+                            href={`http://localhost:3000/uploads/${d.bukti_pembayaran}`}
+                            target="_blank"
+                            rel="noreferrer"
+                          >
+                            Lihat Bukti
+                          </a>
+                        ) : (
+                          "-"
+                        )}
+                      </td>
+
+                      <td>{d.status || "-"}</td>
+                      <td>{d.catatan || "-"}</td>
+
+                      <td>
+                        {d.status === "pending" ? (
+                          <>
+                            <button onClick={() => approvePembayaran(d.id)}>
+                              Setujui
+                            </button>
+
+                            <button onClick={() => rejectPembayaran(d.id)}>
+                              Tolak
+                            </button>
+                          </>
+                        ) : (
+                          "-"
+                        )}
+                      </td>
                     </tr>
                   ))
                 )}

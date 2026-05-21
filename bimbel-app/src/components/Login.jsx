@@ -11,8 +11,6 @@ export default function Login() {
         return;
       }
 
-      console.log("EMAIL DIKIRIM:", email);
-
       const res = await fetch("http://localhost:3000/auth/login", {
         method: "POST",
         headers: {
@@ -25,16 +23,29 @@ export default function Login() {
       });
 
       const data = await res.json();
+
       console.log("DATA LOGIN:", data);
 
       if (!res.ok) {
-        alert(data.message);
+        alert(data.message || "Login gagal");
         return;
       }
 
-      localStorage.setItem("user_id", data.user?.id);
-      localStorage.setItem("role", data.role);
-      localStorage.setItem("user", JSON.stringify(data.user));
+      // hapus data lama agar tidak bentrok
+      localStorage.removeItem("user");
+      localStorage.removeItem("siswa");
+      localStorage.removeItem("role");
+      localStorage.removeItem("user_id");
+
+      // simpan data umum user
+      localStorage.setItem("user_id", data.user?.id || "");
+      localStorage.setItem("role", data.role || "");
+      localStorage.setItem("user", JSON.stringify(data.user || {}));
+
+      // simpan data siswa hanya jika benar-benar ada
+      if (data.role === "siswa" && data.siswa) {
+        localStorage.setItem("siswa", JSON.stringify(data.siswa));
+      }
 
       if (data.role === "admin") {
         window.location.href = "/dashboard-admin";
@@ -42,6 +53,8 @@ export default function Login() {
         window.location.href = "/dashboard-tentor";
       } else if (data.role === "siswa") {
         window.location.href = "/dashboard-siswa";
+      } else {
+        alert("Role tidak dikenali");
       }
     } catch (error) {
       console.error("ERROR LOGIN:", error);
@@ -67,6 +80,7 @@ export default function Login() {
           value={password}
           onChange={(e) => setPassword(e.target.value)}
         />
+
         <p
           style={{
             marginTop: "10px",
@@ -79,6 +93,7 @@ export default function Login() {
         >
           Lupa Password?
         </p>
+
         <button onClick={handleLogin}>Masuk</button>
       </div>
     </div>

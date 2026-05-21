@@ -35,6 +35,7 @@ app.use("/pengumuman", pengumumanRoute);
 app.use("/program", programRoute);
 app.use("/event", eventRoute);
 app.use("/tentor", tentorRoutes);
+app.use("/uploads", express.static("uploads"));
 
 app.get("/", (req, res) => {
   res.send("Backend Bimbel Berjalan");

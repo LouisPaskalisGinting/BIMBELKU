@@ -16,6 +16,10 @@ export default function Register() {
     password: "",
   });
 
+  // BUKTI PEMBAYARAN
+  const [buktiPembayaran, setBuktiPembayaran] = useState(null);
+  const [preview, setPreview] = useState(null);
+
   useEffect(() => {
     fetchProgram();
   }, []);
@@ -37,10 +41,20 @@ export default function Register() {
     });
   };
 
+  // HANDLE UPLOAD BUKTI
+  const handleBuktiChange = (e) => {
+    const file = e.target.files[0];
+
+    if (file) {
+      setBuktiPembayaran(file);
+      setPreview(URL.createObjectURL(file));
+    }
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    // 🔥 VALIDASI
+    // VALIDASI
     for (let key in form) {
       if (!form[key]) {
         alert("Semua data wajib diisi!");
@@ -48,21 +62,35 @@ export default function Register() {
       }
     }
 
+    if (!buktiPembayaran) {
+      alert("Bukti pembayaran wajib diupload!");
+      return;
+    }
+
     try {
-      console.log("DATA REGISTER:", form);
+      // FORM DATA
+      const formData = new FormData();
+
+      formData.append("nama", form.nama);
+      formData.append("kelas", form.kelas);
+      formData.append("asal_sekolah", form.asal_sekolah);
+      formData.append("no_hp", form.no_hp);
+      formData.append("nama_orangtua", form.nama_orangtua);
+      formData.append("no_hp_orangtua", form.no_hp_orangtua);
+      formData.append("program_id", form.program_id);
+      formData.append("email", form.email.trim().toLowerCase());
+      formData.append("password", form.password);
+
+      // FILE BUKTI
+      formData.append("bukti_pembayaran", buktiPembayaran);
 
       const res = await fetch("http://localhost:3000/register/siswa", {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          ...form,
-          email: form.email.trim().toLowerCase(), // 🔥 penting
-        }),
+        body: formData,
       });
 
       const data = await res.json();
+
       console.log("RESP REGISTER:", data);
 
       if (res.ok) {
@@ -124,7 +152,7 @@ export default function Register() {
           onChange={handleChange}
         />
 
-        {/* PROGRAM DROPDOWN */}
+        {/* PROGRAM */}
         <select
           name="program_id"
           value={form.program_id}
@@ -147,12 +175,24 @@ export default function Register() {
         />
 
         <input
-          type="password" // 🔥 FIX
+          type="password"
           name="password"
           placeholder="Password"
           value={form.password}
           onChange={handleChange}
         />
+
+        {/* UPLOAD BUKTI PEMBAYARAN */}
+        <div className="upload-box">
+          <label>Upload Bukti Pembayaran</label>
+
+          <input type="file" accept="image/*" onChange={handleBuktiChange} />
+        </div>
+
+        {/* PREVIEW */}
+        {preview && (
+          <img src={preview} alt="Preview Bukti" className="preview-image" />
+        )}
 
         <button className="btn-login" onClick={handleSubmit}>
           Daftar

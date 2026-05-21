@@ -15,10 +15,15 @@ router.post("/login", (req, res) => {
     "SELECT * FROM user WHERE LOWER(email)=LOWER(?)",
     [email],
     async (err, result) => {
-      if (err) return res.status(500).json(err);
+      if (err) {
+        console.log(err);
+        return res.status(500).json(err);
+      }
 
       if (result.length === 0) {
-        return res.status(401).json({ message: "Email tidak ditemukan" });
+        return res.status(401).json({
+          message: "Email tidak ditemukan",
+        });
       }
 
       const user = result[0];
@@ -26,30 +31,42 @@ router.post("/login", (req, res) => {
       const isMatch = await bcrypt.compare(password, user.password);
 
       if (!isMatch) {
-        return res.status(401).json({ message: "Password salah" });
+        return res.status(401).json({
+          message: "Password salah",
+        });
       }
 
-      // 🔥 CEK KHUSUS SISWA
+      // LOGIN SISWA
       if (user.role === "siswa") {
         db.query(
-          "SELECT status FROM siswa WHERE user_id=?",
+          `
+          SELECT siswa.*, program.nama_program
+          FROM siswa
+          LEFT JOIN program
+          ON siswa.program_id = program.id
+          WHERE siswa.user_id=?
+          `,
           [user.id],
           (err, siswaResult) => {
-            if (err) return res.status(500).json(err);
-
-            if (siswaResult.length === 0) {
-              return res
-                .status(401)
-                .json({ message: "Data siswa tidak ditemukan" });
+            if (err) {
+              console.log(err);
+              return res.status(500).json(err);
             }
 
-            if (siswaResult[0].status !== "approved") {
+            if (siswaResult.length === 0) {
+              return res.status(404).json({
+                message: "Data siswa tidak ditemukan",
+              });
+            }
+
+            const siswa = siswaResult[0];
+
+            if (siswa.status !== "approved") {
               return res.status(403).json({
                 message: "Akun belum disetujui admin",
               });
             }
 
-            // ✅ lanjut login
             return res.json({
               message: "Login berhasil",
               role: user.role,
@@ -57,12 +74,25 @@ router.post("/login", (req, res) => {
                 id: user.id,
                 nama: user.nama,
                 email: user.email,
+                role: user.role,
+              },
+              siswa: {
+                id: siswa.id,
+                nama: siswa.nama,
+                email: siswa.email,
+                kelas: siswa.kelas,
+                asal_sekolah: siswa.asal_sekolah,
+                no_hp: siswa.no_hp,
+                nama_orangtua: siswa.nama_orangtua,
+                no_hp_orangtua: siswa.no_hp_orangtua,
+                program_id: siswa.program_id,
+                nama_program: siswa.nama_program,
+                status: siswa.status,
               },
             });
           }
         );
       } else {
-        // admin / tentor langsung login
         return res.json({
           message: "Login berhasil",
           role: user.role,
@@ -70,6 +100,7 @@ router.post("/login", (req, res) => {
             id: user.id,
             nama: user.nama,
             email: user.email,
+            role: user.role,
           },
         });
       }
@@ -78,14 +109,14 @@ router.post("/login", (req, res) => {
 });
 
 // ============================
-// GENERATE HASH (WAJIB PAKAI)
+// GENERATE HASH
 // ============================
 router.get("/generate", async (req, res) => {
   try {
     const hash = await bcrypt.hash("123", 10);
     res.json({ hash });
   } catch (error) {
-    res.json(error);
+    res.status(500).json(error);
   }
 });
 
@@ -105,36 +136,29 @@ router.post("/forgot-password", (req, res) => {
     }
 
     const user = result[0];
-
-    // generate token
     const token = crypto.randomBytes(32).toString("hex");
-
-    // expired 15 menit
     const expire = Date.now() + 15 * 60 * 1000;
 
     db.query(
       "UPDATE user SET reset_token=?, reset_token_expire=? WHERE id=?",
       [token, expire, user.id],
-      async (err) => {
+      (err) => {
         if (err) return res.status(500).json(err);
 
         const resetLink = `http://localhost:3001/reset-password/${token}`;
 
-        try {
-          console.log("RESET LINK:");
-          console.log(resetLink);
+        console.log("RESET LINK:");
+        console.log(resetLink);
 
-          res.json({
-            message: "Link reset password berhasil dibuat",
-            resetLink,
-          });
-        } catch (error) {
-          res.status(500).json(error);
-        }
+        res.json({
+          message: "Link reset password berhasil dibuat",
+          resetLink,
+        });
       }
     );
   });
 });
+
 // ============================
 // RESET PASSWORD
 // ============================
@@ -156,7 +180,6 @@ router.post("/reset-password/:token", async (req, res) => {
 
       const user = result[0];
 
-      // cek expired
       if (Date.now() > user.reset_token_expire) {
         return res.status(400).json({
           message: "Token sudah expired",
@@ -166,11 +189,13 @@ router.post("/reset-password/:token", async (req, res) => {
       const hashedPassword = await bcrypt.hash(password, 10);
 
       db.query(
-        `UPDATE user 
-         SET password=?, 
-         reset_token=NULL,
-         reset_token_expire=NULL
-         WHERE id=?`,
+        `
+      UPDATE user
+      SET password=?,
+          reset_token=NULL,
+          reset_token_expire=NULL
+      WHERE id=?
+      `,
         [hashedPassword, user.id],
         (err) => {
           if (err) return res.status(500).json(err);
@@ -183,8 +208,9 @@ router.post("/reset-password/:token", async (req, res) => {
     }
   );
 });
+
 // ============================
-// CREATE ADMIN (AUTO HASH)
+// CREATE ADMIN
 // ============================
 router.get("/create-admin", async (req, res) => {
   try {
@@ -196,14 +222,16 @@ router.get("/create-admin", async (req, res) => {
       (err) => {
         if (err) {
           console.log(err);
-          return res.json(err);
+          return res.status(500).json(err);
         }
 
-        res.json({ message: "Admin berhasil dibuat" });
+        res.json({
+          message: "Admin berhasil dibuat",
+        });
       }
     );
   } catch (error) {
-    res.json(error);
+    res.status(500).json(error);
   }
 });
 

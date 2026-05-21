@@ -18,7 +18,7 @@ export default function DataSiswa() {
       const res = await fetch("http://localhost:3000/siswa");
       const data = await res.json();
 
-      console.log("SISWA:", data); // 🔥 DEBUG
+      console.log("SISWA:", data);
 
       setSiswa(Array.isArray(data) ? data : []);
     } catch (err) {
@@ -32,7 +32,7 @@ export default function DataSiswa() {
       const res = await fetch("http://localhost:3000/siswa/pending");
       const data = await res.json();
 
-      console.log("PENDING:", data); // 🔥 DEBUG
+      console.log("PENDING:", data);
 
       setPending(Array.isArray(data) ? data : []);
     } catch (err) {
@@ -41,6 +41,7 @@ export default function DataSiswa() {
     }
   };
 
+  // ================= APPROVE =================
   const handleApprove = async (id) => {
     if (!window.confirm("Setujui siswa ini?")) return;
 
@@ -51,6 +52,8 @@ export default function DataSiswa() {
     fetchPending();
     fetchSiswa();
   };
+
+  // ================= DECLINE =================
   const handleDecline = async (id) => {
     if (!window.confirm("Tolak siswa ini?")) return;
 
@@ -58,7 +61,29 @@ export default function DataSiswa() {
       method: "DELETE",
     });
 
-    fetchPending(); // refresh list
+    fetchPending();
+  };
+
+  // ================= DELETE SISWA =================
+  const handleDeleteSiswa = async (id) => {
+    if (!window.confirm("Yakin ingin menghapus siswa ini?")) return;
+
+    try {
+      await fetch(`http://localhost:3000/siswa/${id}`, {
+        method: "DELETE",
+      });
+
+      fetchSiswa();
+
+      if (selectedSiswa?.id === id) {
+        setSelectedSiswa(null);
+      }
+
+      alert("Siswa berhasil dihapus");
+    } catch (err) {
+      console.error(err);
+      alert("Gagal menghapus siswa");
+    }
   };
 
   return (
@@ -86,6 +111,7 @@ export default function DataSiswa() {
                 <th>Email</th>
                 <th>Kelas</th>
                 <th>Program</th>
+                <th>Aksi</th>
               </tr>
             </thead>
 
@@ -98,8 +124,28 @@ export default function DataSiswa() {
                 >
                   <td>{s.nama}</td>
                   <td>{s.email}</td>
-                  <td>{s.kelas}</td>
+                  <td>{s.nama_kelas}</td>
                   <td>{s.nama_program || "-"}</td>
+
+                  <td>
+                    <button
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        handleDeleteSiswa(s.id);
+                      }}
+                      style={{
+                        background: "#dc2626",
+                        color: "white",
+                        border: "none",
+                        padding: "8px 14px",
+                        borderRadius: "8px",
+                        fontWeight: "bold",
+                        cursor: "pointer",
+                      }}
+                    >
+                      Hapus
+                    </button>
+                  </td>
                 </tr>
               ))}
             </tbody>
@@ -161,7 +207,10 @@ export default function DataSiswa() {
                     </button>
 
                     <button
-                      style={{ background: "red", color: "white" }}
+                      style={{
+                        background: "red",
+                        color: "white",
+                      }}
                       onClick={() => handleDecline(s.id)}
                     >
                       Decline
@@ -183,18 +232,23 @@ export default function DataSiswa() {
             <p>
               <b>Nama:</b> {selectedSiswa.nama}
             </p>
+
             <p>
               <b>Email:</b> {selectedSiswa.email}
             </p>
+
             <p>
-              <b>Kelas:</b> {selectedSiswa.kelas}
+              <b>Kelas:</b> {selectedSiswa.nama_kelas}
             </p>
+
             <p>
               <b>Asal Sekolah:</b> {selectedSiswa.asal_sekolah}
             </p>
+
             <p>
               <b>No HP:</b> {selectedSiswa.no_hp}
             </p>
+
             <p>
               <b>Program:</b> {selectedSiswa.nama_program}
             </p>
