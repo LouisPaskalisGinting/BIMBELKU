@@ -1,28 +1,116 @@
-.jadwal-container {
-  padding: 20px;
+/* JadwalSiswa.css */
+
+.jadwal-siswa-container {
+  padding: 24px;
+  background-color: #f4f7fb;
+  min-height: 100vh;
+  box-sizing: border-box;
+}
+
+.jadwal-siswa-card {
+  background-color: #ffffff;
+  border-radius: 16px;
+  padding: 24px;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.08);
+  border: 1px solid #e5e7eb;
+}
+
+.jadwal-siswa-title {
+  margin-bottom: 20px;
+  color: #1f2937;
+  font-size: 26px;
+  font-weight: 700;
+}
+
+.jadwal-table-wrapper {
+  width: 100%;
+  overflow-x: auto;
 }
 
 .jadwal-table {
   width: 100%;
   border-collapse: collapse;
-  margin-top: 15px;
-  background: white;
-  border-radius: 10px;
+  background-color: #ffffff;
+  border-radius: 12px;
   overflow: hidden;
 }
 
-.jadwal-table th,
-.jadwal-table td {
-  padding: 12px;
-  border-bottom: 1px solid #eee;
-  text-align: left;
+.jadwal-table thead {
+  background: linear-gradient(135deg, #2563eb, #1e40af);
+  color: #ffffff;
 }
 
 .jadwal-table th {
-  background: #3b82f6;
-  color: white;
+  padding: 15px 16px;
+  text-align: left;
+  font-size: 14px;
+  font-weight: 700;
+  white-space: nowrap;
 }
 
-.jadwal-table tr:hover {
-  background: #f1f5f9;
+.jadwal-table td {
+  padding: 14px 16px;
+  border-bottom: 1px solid #e5e7eb;
+  font-size: 14px;
+  color: #374151;
+}
+
+.jadwal-table tbody tr {
+  transition: 0.2s ease;
+}
+
+.jadwal-table tbody tr:hover {
+  background-color: #f3f6ff;
+}
+
+.jadwal-table tbody tr:last-child td {
+  border-bottom: none;
+}
+
+.jadwal-empty {
+  text-align: center;
+  padding: 28px;
+  color: #6b7280;
+  font-style: italic;
+}
+
+.jadwal-mapel {
+  font-weight: 700;
+  color: #1d4ed8;
+}
+
+.jadwal-hari {
+  display: inline-block;
+  padding: 6px 12px;
+  background-color: #dbeafe;
+  color: #1d4ed8;
+  border-radius: 20px;
+  font-weight: 600;
+  font-size: 13px;
+}
+
+.jadwal-jam {
+  font-weight: 600;
+  color: #111827;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .jadwal-siswa-container {
+    padding: 16px;
+  }
+
+  .jadwal-siswa-card {
+    padding: 18px;
+  }
+
+  .jadwal-siswa-title {
+    font-size: 22px;
+  }
+
+  .jadwal-table th,
+  .jadwal-table td {
+    padding: 12px;
+    font-size: 13px;
+  }
 }

@@ -1,131 +1,233 @@
-.modal-overlay {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: rgba(0, 0, 0, 0.5);
-
-  display: flex;
-  justify-content: center;
-  align-items: center;
+/* ===== GLOBAL ===== */
+* {
+  box-sizing: border-box;
+  font-family: "Inter", "Segoe UI", Arial, sans-serif;
 }
 
-.modal-content {
-  background: white;
-  padding: 20px;
-  border-radius: 10px;
-  width: 300px;
-} /* ===== ROOT PAGE ===== */
+/* ===== ROOT PAGE ===== */
 .main {
-  padding: 30px;
-  background: #357c33;
   min-height: 100vh;
+  padding: 32px;
+  background: #f4f7f5;
+  color: #1f2937;
 }
 
 /* ===== TITLE ===== */
 .main h1 {
-  font-size: 34px;
-  margin-bottom: 20px;
+  font-size: 32px;
+  font-weight: 700;
+  margin-bottom: 24px;
+  color: #14532d;
 }
 
-/* ===== TOOLBAR ===== */
-.toolbar {
+.main h2 {
+  font-size: 22px;
+  font-weight: 600;
+  margin: 20px 0 16px;
+  color: #1f2937;
+}
+
+/* ===== TAB BUTTON AREA ===== */
+.main > div:first-of-type {
   display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 25px;
+  gap: 12px;
+  margin-bottom: 24px !important;
 }
 
-/* LEFT SIDE SEARCH */
-.toolbar input {
-  width: 220px;
-  padding: 10px;
-  border-radius: 6px;
+/* ===== DEFAULT BUTTON ===== */
+.main button {
   border: none;
-  background: #e6e6e6;
-  font-size: 14px;
-}
-
-/* RIGHT SIDE BUTTON */
-.toolbar button {
-  padding: 10px 20px;
-  border: none;
-  background: #e6e6e6;
-  border-radius: 6px;
-  cursor: pointer;
-  font-weight: 500;
-}
-
-.toolbar button:hover {
-  background: #d4d4d4;
-}
-
-/* ===== TABLE WRAPPER (CARD) ===== */
-table {
-  width: 100%;
-  border-collapse: collapse;
-  background: white;
   border-radius: 10px;
+  padding: 10px 18px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  background: #ffffff;
+  color: #166534;
+  border: 1px solid #d1fae5;
+  transition: 0.2s ease;
+}
+
+.main button:hover {
+  background: #dcfce7;
+  transform: translateY(-1px);
+}
+
+/* ===== TABLE ===== */
+.main table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+  background: #ffffff;
+  border-radius: 16px;
   overflow: hidden;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
 }
 
 /* ===== TABLE HEADER ===== */
-thead {
-  background: #6b6b6b;
-  color: white;
+.main thead {
+  background: #166534;
+  color: #ffffff;
 }
 
-thead th {
+.main thead th {
   padding: 16px;
   text-align: left;
-  font-size: 16px;
+  font-size: 14px;
+  font-weight: 600;
+  letter-spacing: 0.3px;
 }
 
-/* ===== BODY ===== */
-tbody td {
-  padding: 18px 16px;
-  font-size: 15px;
+/* ===== TABLE BODY ===== */
+.main tbody td {
+  padding: 16px;
+  font-size: 14px;
+  color: #374151;
+  border-bottom: 1px solid #e5e7eb;
 }
 
-/* ===== ZEBRA ROW ===== */
-tbody tr:nth-child(odd) {
-  background: #eeeeee;
+.main tbody tr {
+  background: #ffffff;
+  transition: 0.2s ease;
 }
 
-tbody tr:nth-child(even) {
-  background: #dcdcdc;
+.main tbody tr:hover {
+  background: #f0fdf4;
 }
 
-/* ===== ACTION BUTTON ===== */
-tbody button {
-  margin-right: 8px;
-  padding: 6px 12px;
-  border: none;
-  background: #bdbdbd;
-  border-radius: 4px;
-  cursor: pointer;
+.main tbody tr:last-child td {
+  border-bottom: none;
 }
 
-tbody button:hover {
-  background: #a8a8a8;
+/* ===== TABLE LINK ===== */
+.main a {
+  color: #15803d;
+  font-weight: 600;
+  text-decoration: none;
 }
 
-/* ===== PAGINATION ===== */
-.pagination {
-  margin-top: 20px;
+.main a:hover {
+  text-decoration: underline;
+}
+
+/* ===== ACTION BUTTON IN TABLE ===== */
+.main tbody button {
+  padding: 8px 14px !important;
+  border-radius: 8px !important;
+  font-size: 13px;
+  font-weight: 600;
+  color: white !important;
+  border: none !important;
+  box-shadow: none;
+}
+
+/* tombol approve */
+.main tbody button[style*="green"] {
+  background: #16a34a !important;
+}
+
+.main tbody button[style*="green"]:hover {
+  background: #15803d !important;
+}
+
+/* tombol decline / hapus */
+.main tbody button[style*="red"],
+.main tbody button[style*="#dc2626"] {
+  background: #dc2626 !important;
+}
+
+.main tbody button[style*="red"]:hover,
+.main tbody button[style*="#dc2626"]:hover {
+  background: #b91c1c !important;
+}
+
+/* ===== MODAL OVERLAY ===== */
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(15, 23, 42, 0.55);
+  backdrop-filter: blur(4px);
   display: flex;
-  gap: 10px;
+  justify-content: center;
+  align-items: center;
+  z-index: 999;
+  padding: 20px;
 }
 
-.pagination button {
-  padding: 6px 12px;
+/* ===== MODAL CONTENT ===== */
+.modal-content {
+  background: #ffffff;
+  width: 420px;
+  max-width: 100%;
+  padding: 28px;
+  border-radius: 18px;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+  animation: modalFade 0.25s ease;
+}
+
+.modal-content h2 {
+  margin-top: 0;
+  margin-bottom: 18px;
+  color: #14532d;
+  font-size: 24px;
+}
+
+.modal-content p {
+  margin: 12px 0;
+  font-size: 15px;
+  color: #374151;
+}
+
+.modal-content b {
+  color: #111827;
+}
+
+.modal-content button {
+  width: 100%;
+  margin-top: 18px;
+  background: #166534;
+  color: white;
   border: none;
-  background: #dcdcdc;
-  border-radius: 5px;
-  cursor: pointer;
 }
 
-.pagination button:hover {
-  background: #bfbfbf;
+.modal-content button:hover {
+  background: #14532d;
+}
+
+/* ===== ANIMATION ===== */
+@keyframes modalFade {
+  from {
+    opacity: 0;
+    transform: translateY(12px) scale(0.97);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+/* ===== RESPONSIVE ===== */
+@media (max-width: 768px) {
+  .main {
+    padding: 20px;
+  }
+
+  .main h1 {
+    font-size: 26px;
+  }
+
+  .main table {
+    display: block;
+    overflow-x: auto;
+    white-space: nowrap;
+  }
+
+  .main > div:first-of-type {
+    flex-wrap: wrap;
+  }
+
+  .modal-content {
+    width: 100%;
+  }
 }

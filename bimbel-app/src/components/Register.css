@@ -1,69 +1,183 @@
-/* ====== Container Utama ====== */
+/* Register.css */
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: "Segoe UI", Arial, sans-serif;
+  background-color: #f6f8fc;
+}
+
+/* Container utama */
 .login-container {
-  width: 100%;
-  height: 100vh;
+  min-height: 100vh;
+  padding: 40px 20px;
   display: flex;
   justify-content: center;
   align-items: center;
-  background: linear-gradient(135deg, #157635, #0e6911);
-  font-family: "Poppins", sans-serif;
+  background: radial-gradient(circle at top left, #dbeafe 0%, transparent 35%),
+    radial-gradient(circle at bottom right, #cffafe 0%, transparent 35%),
+    linear-gradient(135deg, #f8fafc, #eef6ff);
 }
 
-/* ====== Card Form ====== */
+/* Card form */
 .login-card {
-  background: rgba(255, 255, 255, 0.692);
-  padding: 30px;
-  border-radius: 12px;
-  width: 400px;
-  box-shadow: 0px 10px 25px rgba(0, 0, 0, 0.2);
-  text-align: center;
+  width: 100%;
+  max-width: 620px;
+  background-color: #ffffff;
+  padding: 34px;
+  border-radius: 24px;
+  box-shadow: 0 18px 45px rgba(15, 23, 42, 0.12);
+  border: 1px solid #e5e7eb;
 }
 
-/* ====== Judul ====== */
 .login-card h2 {
-  margin-bottom: 20px;
-  color: #333;
+  margin: 0 0 26px;
+  text-align: center;
+  color: #0f172a;
+  font-size: 28px;
+  font-weight: 900;
 }
 
-/* ====== Input Form ====== */
-.login-card input {
+.login-card h2::after {
+  content: "";
+  display: block;
+  width: 70px;
+  height: 5px;
+  background: linear-gradient(135deg, #2563eb, #06b6d4);
+  border-radius: 999px;
+  margin: 14px auto 0;
+}
+
+/* Input dan select */
+.login-card input,
+.login-card select {
   width: 100%;
-  padding: 10px;
-  margin: 8px 0;
-  border: 1px solid #ddd;
-  border-radius: 8px;
-  outline: none;
+  padding: 14px 16px;
+  margin-bottom: 15px;
+  border: 1px solid #d1d5db;
+  border-radius: 14px;
+  background-color: #f9fafb;
+  color: #111827;
   font-size: 14px;
-  transition: 0.3s;
+  outline: none;
+  transition: 0.25s ease;
 }
 
-/* Efek saat input diklik */
-.login-card input:focus {
-  border-color: #667eea;
-  box-shadow: 0 0 5px rgba(102, 126, 234, 0.5);
+.login-card input::placeholder {
+  color: #9ca3af;
 }
 
-/* ====== Tombol Daftar ====== */
-.btn-login {
-  width: 100%;
-  padding: 10px;
-  margin-top: 15px;
-  background: #08bd47;
-  color: rgb(255, 255, 255);
-  border: none;
-  border-radius: 8px;
-  font-size: 16px;
+.login-card input:focus,
+.login-card select:focus {
+  border-color: #2563eb;
+  background-color: #ffffff;
+  box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.14);
+}
+
+.login-card select {
   cursor: pointer;
-  transition: 0.3s;
 }
 
-.btn-login:hover {
-  background: #5563c1;
+/* Upload box */
+.upload-box {
+  margin-top: 4px;
+  margin-bottom: 18px;
+  padding: 18px;
+  border: 2px dashed #bfdbfe;
+  border-radius: 18px;
+  background-color: #eff6ff;
 }
 
-/* ====== Responsive untuk HP ====== */
-@media (max-width: 500px) {
+.upload-box label {
+  display: block;
+  margin-bottom: 10px;
+  color: #1e40af;
+  font-size: 14px;
+  font-weight: 800;
+}
+
+.upload-box input[type="file"] {
+  margin-bottom: 0;
+  background-color: #ffffff;
+  cursor: pointer;
+}
+
+/* Preview bukti pembayaran */
+.preview-image {
+  width: 100%;
+  max-height: 260px;
+  object-fit: contain;
+  margin-bottom: 18px;
+  border-radius: 18px;
+  border: 1px solid #e5e7eb;
+  background-color: #f8fafc;
+  padding: 10px;
+}
+
+/* Tombol daftar */
+.login-card .btn-login {
+  width: 100%;
+  padding: 14px;
+  border: none;
+  border-radius: 999px;
+  background: linear-gradient(135deg, #2563eb, #06b6d4);
+  color: #ffffff;
+  font-size: 15px;
+  font-weight: 900;
+  cursor: pointer;
+  transition: 0.25s ease;
+  box-shadow: 0 12px 28px rgba(37, 99, 235, 0.28);
+}
+
+.login-card .btn-login:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 16px 34px rgba(37, 99, 235, 0.38);
+}
+
+.login-card .btn-login:active {
+  transform: scale(0.98);
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .login-container {
+    padding: 28px 16px;
+    align-items: flex-start;
+  }
+
   .login-card {
-    width: 90%;
+    padding: 26px 22px;
+    border-radius: 20px;
+  }
+
+  .login-card h2 {
+    font-size: 24px;
+  }
+
+  .login-card input,
+  .login-card select {
+    padding: 13px 14px;
+    font-size: 13px;
+  }
+
+  .upload-box {
+    padding: 15px;
+  }
+}
+
+@media (max-width: 480px) {
+  .login-card {
+    padding: 22px 18px;
+  }
+
+  .login-card h2 {
+    font-size: 22px;
+  }
+
+  .preview-image {
+    max-height: 220px;
   }
 }

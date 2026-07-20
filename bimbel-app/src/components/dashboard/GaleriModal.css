@@ -1,0 +1,109 @@
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 999;
+}
+
+.galeri-modal {
+  width: 650px;
+  max-width: 95%;
+
+  background: #fff;
+
+  border-radius: 12px;
+
+  padding: 25px;
+
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.25);
+}
+
+.galeri-modal h2 {
+  margin-bottom: 20px;
+
+  color: #333;
+}
+
+.galeri-modal form {
+  display: flex;
+
+  flex-direction: column;
+
+  gap: 12px;
+}
+
+.galeri-modal label {
+  font-weight: 600;
+}
+
+.galeri-modal input,
+.galeri-modal textarea {
+  padding: 10px;
+
+  border: 1px solid #ccc;
+
+  border-radius: 8px;
+
+  font-size: 15px;
+}
+
+.preview-image {
+  width: 220px;
+
+  height: 160px;
+
+  object-fit: cover;
+
+  border-radius: 8px;
+
+  border: 1px solid #ddd;
+}
+
+.modal-buttons {
+  display: flex;
+
+  justify-content: flex-end;
+
+  gap: 10px;
+
+  margin-top: 15px;
+}
+
+.btn-save {
+  background: #2e7d32;
+
+  color: #fff;
+
+  border: none;
+
+  padding: 10px 20px;
+
+  border-radius: 8px;
+
+  cursor: pointer;
+}
+
+.btn-save:hover {
+  background: #1b5e20;
+}
+
+.btn-cancel {
+  background: #d32f2f;
+
+  color: #fff;
+
+  border: none;
+
+  padding: 10px 20px;
+
+  border-radius: 8px;
+
+  cursor: pointer;
+}
+
+.btn-cancel:hover {
+  background: #b71c1c;
+}

@@ -1,0 +1,268 @@
+/* PembayaranSiswa.css */
+
+.pembayaran-page {
+  padding: 24px;
+  background-color: #f4f7fb;
+  min-height: 100vh;
+  box-sizing: border-box;
+}
+
+.pembayaran-page h1 {
+  margin-bottom: 24px;
+  color: #1f2937;
+  font-size: 28px;
+  font-weight: 700;
+}
+
+.pembayaran-page > p {
+  background-color: #ffffff;
+  padding: 18px;
+  border-radius: 12px;
+  color: #6b7280;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
+}
+
+/* Container Card */
+.pembayaran-page .card-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 20px;
+}
+
+/* Card Pembayaran */
+.pembayaran-page .card {
+  background-color: #ffffff;
+  padding: 22px;
+  border-radius: 16px;
+  border: 1px solid #e5e7eb;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.08);
+  transition: 0.25s ease;
+}
+
+.pembayaran-page .card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 22px rgba(0, 0, 0, 0.12);
+}
+
+.pembayaran-page .card h3 {
+  margin: 0 0 14px 0;
+  color: #1f2937;
+  font-size: 20px;
+  font-weight: 700;
+}
+
+.pembayaran-page .card p {
+  margin: 8px 0;
+  color: #4b5563;
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+.pembayaran-page .card .sisa {
+  margin-top: 12px;
+  color: #dc2626;
+  font-weight: 700;
+  font-size: 15px;
+}
+
+.pembayaran-page .card button {
+  width: 100%;
+  margin-top: 16px;
+  padding: 11px 14px;
+  border: none;
+  border-radius: 10px;
+  background-color: #2563eb;
+  color: white;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: 0.25s ease;
+}
+
+.pembayaran-page .card button:hover {
+  background-color: #1d4ed8;
+}
+
+.pembayaran-page .card button:disabled {
+  background-color: #16a34a;
+  cursor: not-allowed;
+}
+
+/* Modal */
+.pembayaran-page .modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(17, 24, 39, 0.55);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 999;
+  padding: 20px;
+  box-sizing: border-box;
+}
+
+.pembayaran-page .modal {
+  width: 100%;
+  max-width: 850px;
+  max-height: 90vh;
+  overflow-y: auto;
+  background-color: #ffffff;
+  padding: 26px;
+  border-radius: 18px;
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.18);
+}
+
+.pembayaran-page .modal h2 {
+  margin: 0 0 18px 0;
+  color: #1f2937;
+  font-size: 24px;
+  font-weight: 700;
+}
+
+.pembayaran-page .modal h3 {
+  margin: 26px 0 14px 0;
+  color: #1f2937;
+  font-size: 18px;
+  font-weight: 700;
+}
+
+/* Form Pembayaran */
+.pembayaran-page .bayar-form {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+  margin-bottom: 20px;
+}
+
+.pembayaran-page .bayar-form input {
+  padding: 11px 14px;
+  border: 1px solid #d1d5db;
+  border-radius: 10px;
+  font-size: 14px;
+  outline: none;
+  background-color: #ffffff;
+}
+
+.pembayaran-page .bayar-form input[type="number"] {
+  flex: 1;
+  min-width: 200px;
+}
+
+.pembayaran-page .bayar-form input[type="file"] {
+  flex: 1;
+  min-width: 220px;
+}
+
+.pembayaran-page .bayar-form input:focus {
+  border-color: #2563eb;
+  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.15);
+}
+
+.pembayaran-page .bayar-form button {
+  padding: 11px 16px;
+  border: none;
+  border-radius: 10px;
+  background-color: #16a34a;
+  color: white;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: 0.25s ease;
+}
+
+.pembayaran-page .bayar-form button:hover {
+  background-color: #15803d;
+}
+
+/* Table Riwayat */
+.pembayaran-page table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 10px;
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+.pembayaran-page table thead {
+  background: linear-gradient(135deg, #2563eb, #1e40af);
+  color: white;
+}
+
+.pembayaran-page table th,
+.pembayaran-page table td {
+  padding: 13px 14px;
+  text-align: left;
+  font-size: 14px;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.pembayaran-page table td {
+  color: #374151;
+}
+
+.pembayaran-page table tbody tr:hover {
+  background-color: #f3f6ff;
+}
+
+.pembayaran-page table a {
+  color: #2563eb;
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.pembayaran-page table a:hover {
+  text-decoration: underline;
+}
+
+/* Tombol Tutup */
+.pembayaran-page .modal > button {
+  margin-top: 20px;
+  padding: 11px 18px;
+  border: none;
+  border-radius: 10px;
+  background-color: #dc2626;
+  color: white;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: 0.25s ease;
+}
+
+.pembayaran-page .modal > button:hover {
+  background-color: #b91c1c;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .pembayaran-page {
+    padding: 16px;
+  }
+
+  .pembayaran-page h1 {
+    font-size: 24px;
+  }
+
+  .pembayaran-page .modal {
+    padding: 20px;
+  }
+
+  .pembayaran-page .bayar-form {
+    flex-direction: column;
+  }
+
+  .pembayaran-page .bayar-form input,
+  .pembayaran-page .bayar-form button {
+    width: 100%;
+  }
+
+  .pembayaran-page table {
+    min-width: 650px;
+  }
+
+  .pembayaran-page .modal {
+    overflow-x: auto;
+  }
+}

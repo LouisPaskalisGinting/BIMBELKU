@@ -1,11 +1,130 @@
-.notif {
-  background: #ffe082;
-  padding: 10px;
-  margin-bottom: 10px;
-  border-radius: 8px;
+/* Pengumumansiswa.css */
+
+.pengumuman-page {
+  padding: 24px;
+  background-color: #f4f7fb;
+  min-height: 100vh;
+  box-sizing: border-box;
 }
 
-.highlight {
-  border: 2px solid #ff9800;
-  background: #fff8e1;
+.pengumuman-page h1 {
+  margin-bottom: 20px;
+  color: #1f2937;
+  font-size: 28px;
+  font-weight: 700;
+}
+
+/* Notifikasi Pengumuman Baru */
+.notif {
+  background-color: #dbeafe;
+  color: #1d4ed8;
+  padding: 14px 18px;
+  border-radius: 12px;
+  margin-bottom: 20px;
+  font-weight: 600;
+  border-left: 5px solid #2563eb;
+  box-shadow: 0 3px 10px rgba(37, 99, 235, 0.15);
+}
+
+/* List Pengumuman */
+.pengumuman-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 18px;
+}
+
+/* Card Pengumuman */
+.pengumuman-card {
+  background-color: #ffffff;
+  border-radius: 16px;
+  padding: 22px;
+  border: 1px solid #e5e7eb;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.07);
+  transition: 0.25s ease;
+  position: relative;
+}
+
+.pengumuman-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 22px rgba(0, 0, 0, 0.12);
+}
+
+.pengumuman-card h3 {
+  margin: 0 0 12px 0;
+  color: #1f2937;
+  font-size: 19px;
+  font-weight: 700;
+}
+
+.pengumuman-card p {
+  margin: 0 0 16px 0;
+  color: #4b5563;
+  font-size: 14px;
+  line-height: 1.6;
+}
+
+.pengumuman-card small {
+  display: inline-block;
+  color: #6b7280;
+  font-size: 13px;
+  background-color: #f3f4f6;
+  padding: 6px 10px;
+  border-radius: 20px;
+}
+
+/* Pengumuman terbaru */
+.pengumuman-card.highlight {
+  border: 2px solid #2563eb;
+  background-color: #eff6ff;
+}
+
+.pengumuman-card.highlight::before {
+  content: "Baru";
+  position: absolute;
+  top: 14px;
+  right: 14px;
+  background-color: #2563eb;
+  color: white;
+  font-size: 12px;
+  font-weight: 700;
+  padding: 5px 10px;
+  border-radius: 20px;
+}
+
+/* Jika tidak ada pengumuman */
+.pengumuman-list:empty::after {
+  content: "Belum ada pengumuman";
+  color: #6b7280;
+  background-color: #ffffff;
+  padding: 20px;
+  border-radius: 12px;
+  text-align: center;
+  grid-column: 1 / -1;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .pengumuman-page {
+    padding: 16px;
+  }
+
+  .pengumuman-page h1 {
+    font-size: 24px;
+  }
+
+  .pengumuman-list {
+    grid-template-columns: 1fr;
+  }
+
+  .pengumuman-card {
+    padding: 18px;
+  }
+
+  .pengumuman-card h3 {
+    font-size: 17px;
+  }
+
+  .pengumuman-card p {
+    font-size: 14px;
+  }
 }

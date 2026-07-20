@@ -1,0 +1,193 @@
+.absensi-tentor-container {
+  padding: 24px;
+  background: #f6f8fb;
+  min-height: 100vh;
+}
+
+.absensi-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  background: #ffffff;
+  padding: 24px;
+  border-radius: 16px;
+  margin-bottom: 24px;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.06);
+}
+
+.absensi-header h2 {
+  margin: 0;
+  color: #1f2937;
+}
+
+.absensi-header p {
+  margin-top: 6px;
+  color: #6b7280;
+}
+
+.tanggal-box {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.tanggal-box label {
+  font-weight: 600;
+  color: #374151;
+}
+
+.tanggal-box input {
+  padding: 10px 12px;
+  border: 1px solid #d1d5db;
+  border-radius: 10px;
+  outline: none;
+}
+
+.jadwal-section,
+.absensi-section {
+  background: #ffffff;
+  padding: 24px;
+  border-radius: 16px;
+  margin-bottom: 24px;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.06);
+}
+
+.jadwal-section h3,
+.absensi-section h3 {
+  margin-top: 0;
+  color: #1f2937;
+}
+
+.jadwal-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
+  gap: 16px;
+}
+
+.jadwal-card {
+  border: 1px solid #e5e7eb;
+  padding: 16px;
+  border-radius: 14px;
+  cursor: pointer;
+  transition: 0.2s ease;
+  background: #ffffff;
+}
+
+.jadwal-card:hover {
+  transform: translateY(-2px);
+  border-color: #2563eb;
+  box-shadow: 0 6px 16px rgba(37, 99, 235, 0.12);
+}
+
+.jadwal-card.active {
+  border-color: #2563eb;
+  background: #eff6ff;
+}
+
+.jadwal-card h4 {
+  margin: 0 0 10px;
+  color: #2563eb;
+}
+
+.jadwal-card p {
+  margin: 5px 0;
+  color: #4b5563;
+}
+
+.absensi-title {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 18px;
+}
+
+.absensi-title p {
+  color: #6b7280;
+  margin-top: 4px;
+}
+
+.table-wrapper {
+  width: 100%;
+  overflow-x: auto;
+}
+
+.absensi-table {
+  width: 100%;
+  border-collapse: collapse;
+  min-width: 750px;
+}
+
+.absensi-table th,
+.absensi-table td {
+  padding: 14px;
+  border-bottom: 1px solid #e5e7eb;
+  text-align: left;
+}
+
+.absensi-table th {
+  background: #f3f4f6;
+  color: #374151;
+  font-weight: 700;
+}
+
+.absensi-table td {
+  color: #374151;
+}
+
+.absensi-table select,
+.absensi-table input {
+  width: 100%;
+  padding: 9px 10px;
+  border: 1px solid #d1d5db;
+  border-radius: 10px;
+  outline: none;
+}
+
+.absensi-table select:focus,
+.absensi-table input:focus,
+.tanggal-box input:focus {
+  border-color: #2563eb;
+}
+
+.button-footer {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 20px;
+}
+
+.btn-simpan,
+.btn-hadir {
+  border: none;
+  border-radius: 10px;
+  padding: 11px 18px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.btn-simpan {
+  background: #2563eb;
+  color: white;
+}
+
+.btn-simpan:hover {
+  background: #1d4ed8;
+}
+
+.btn-simpan:disabled {
+  background: #93c5fd;
+  cursor: not-allowed;
+}
+
+.btn-hadir {
+  background: #16a34a;
+  color: white;
+}
+
+.btn-hadir:hover {
+  background: #15803d;
+}
+
+.empty-text {
+  color: #6b7280;
+  margin-top: 12px;
+}

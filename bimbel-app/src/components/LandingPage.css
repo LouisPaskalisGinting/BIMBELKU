@@ -1,341 +1,554 @@
-body {
+/* LandingPage.css */
+
+* {
   margin: 0;
-  font-family: "Inter", sans-serif;
-  background: #b9d4aa;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: "Segoe UI", Arial, sans-serif;
+  background-color: #f8fafc;
+  color: #1f2937;
 }
 
 .landing-container {
   width: 100%;
+  min-height: 100vh;
+  overflow-x: hidden;
 }
 
 /* ================= NAVBAR ================= */
 
 .navbar {
+  width: 100%;
+  min-height: 78px;
+  padding: 0 70px;
+  background-color: rgba(255, 255, 255, 0.92);
+  backdrop-filter: blur(14px);
   display: flex;
-  justify-content: space-between;
   align-items: center;
-  padding: 20px 60px;
-  background: #b9d4aa;
-  position: sticky;
+  justify-content: space-between;
+  position: fixed;
   top: 0;
-  z-index: 100;
+  z-index: 999;
+  border-bottom: 1px solid #e5e7eb;
 }
 
 .logo img {
-  height: 45px;
+  width: 200px;
+  height: 58px;
+  object-fit: contain;
 }
 
 .nav-menu {
   display: flex;
   align-items: center;
-  gap: 25px;
+  gap: 28px;
 }
 
 .nav-menu span {
-  font-size: 18px;
+  color: #475569;
+  font-size: 15px;
+  font-weight: 600;
   cursor: pointer;
-  font-weight: 500;
-  transition: 0.2s;
+  transition: 0.25s ease;
 }
 
 .nav-menu span:hover {
-  color: #0b441a;
+  color: #2563eb;
 }
 
 .btn-login {
-  color: #0b441a;
-  padding: 10px 20px;
   border: none;
-  font-size: 16px;
-  font-weight: 600;
+  background-color: #eff6ff;
+  color: #2563eb;
+  padding: 10px 22px;
+  border-radius: 999px;
+  font-weight: 700;
   cursor: pointer;
-  background: none;
+  transition: 0.25s ease;
+}
+
+.btn-login:hover {
+  background-color: #2563eb;
+  color: white;
 }
 
 .btn-daftar {
-  background: #0b441a;
-  color: white;
   border: none;
-  padding: 12px 22px;
-  font-weight: bold;
-  border-radius: 8px;
+  background: linear-gradient(135deg, #2563eb, #06b6d4);
+  color: white;
+  padding: 12px 24px;
+  border-radius: 999px;
+  font-weight: 800;
   cursor: pointer;
-  transition: 0.3s;
+  transition: 0.25s ease;
+  box-shadow: 0 10px 22px rgba(37, 99, 235, 0.25);
 }
 
 .btn-daftar:hover {
-  background: #083112;
+  transform: translateY(-2px);
+  box-shadow: 0 14px 30px rgba(37, 99, 235, 0.35);
 }
 
 /* ================= HERO ================= */
 
 .hero {
+  min-height: 100vh;
+  padding: 130px 70px 80px;
   display: flex;
   align-items: center;
-  justify-content: space-between;
-  padding: 100px 80px;
+  justify-content: center;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+  background: radial-gradient(circle at top left, #dbeafe 0%, transparent 35%),
+    radial-gradient(circle at bottom right, #cffafe 0%, transparent 35%),
+    linear-gradient(135deg, #f8fafc, #eef6ff);
+}
+
+.hero::before {
+  content: "";
+  position: absolute;
+  width: 430px;
+  height: 430px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #2563eb, #06b6d4);
+  opacity: 0.16;
+  right: -120px;
+  top: 120px;
+}
+
+.hero::after {
+  content: "";
+  position: absolute;
+  width: 280px;
+  height: 280px;
+  border-radius: 50%;
+  background: #60a5fa;
+  opacity: 0.13;
+  left: -90px;
+  bottom: 70px;
+}
+
+.hero-text {
+  max-width: 720px;
+  position: relative;
+  z-index: 2;
+  margin: 0 auto;
 }
 
 .hero-text h1 {
-  font-size: 90px;
-  color: #0b441a;
-  margin: 0;
-  font-weight: 800;
+  font-size: 72px;
+  font-weight: 900;
+  color: #0f172a;
+  line-height: 1.05;
+  margin-bottom: 18px;
+  letter-spacing: 1px;
+  text-align: center;
 }
 
 .hero-text p {
   font-size: 26px;
-  margin-top: 10px;
+  color: #2563eb;
+  font-weight: 700;
+  margin-bottom: 34px;
+  text-align: center;
 }
 
 .hero-btn {
-  margin-top: 25px;
-  padding: 14px 25px;
-  background: #0b441a;
-  color: white;
   border: none;
-  border-radius: 8px;
-  font-size: 16px;
+  background: linear-gradient(135deg, #2563eb, #06b6d4);
+  color: white;
+  padding: 15px 34px;
+  border-radius: 999px;
+  font-size: 15px;
+  font-weight: 800;
   cursor: pointer;
+  transition: 0.25s ease;
+  box-shadow: 0 12px 26px rgba(37, 99, 235, 0.28);
 }
 
-.hero-image img {
-  width: 420px;
+.hero-btn:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 16px 34px rgba(37, 99, 235, 0.38);
+}
+@media (max-width: 768px) {
+  .hero {
+    min-height: 88vh;
+    padding: 160px 24px 70px;
+    text-align: center;
+    justify-content: center;
+  }
+
+  .hero-text h1 {
+    font-size: 44px;
+  }
+
+  .hero-text p {
+    font-size: 19px;
+  }
+}
+
+@media (max-width: 480px) {
+  .hero-text h1 {
+    font-size: 36px;
+  }
+
+  .hero-text p {
+    font-size: 16px;
+  }
+
+  .hero-btn {
+    width: 100%;
+  }
+}
+/* ================= SECTION GLOBAL ================= */
+
+.about,
+.program,
+.testimoni {
+  padding: 90px 70px;
+}
+
+.about h2,
+.program h2,
+.testimoni h2 {
+  text-align: center;
+  color: #0f172a;
+  font-size: 36px;
+  font-weight: 900;
+  margin-bottom: 18px;
+}
+
+.about h2::after,
+.program h2::after,
+.testimoni h2::after {
+  content: "";
+  display: block;
+  width: 76px;
+  height: 5px;
+  background: linear-gradient(135deg, #2563eb, #06b6d4);
+  border-radius: 999px;
+  margin: 16px auto 0;
 }
 
 /* ================= ABOUT ================= */
 
 .about {
-  background: #9ebf8b;
-  padding: 80px 120px;
-  text-align: center;
-}
-
-.about h2 {
-  font-size: 45px;
-  margin-bottom: 20px;
+  background-color: #ffffff;
 }
 
 .about p {
-  font-size: 20px;
-  line-height: 1.7;
-  max-width: 900px;
-  margin: auto;
+  max-width: 860px;
+  margin: 0 auto;
+  text-align: center;
+  color: #64748b;
+  font-size: 17px;
+  line-height: 1.9;
 }
 
 /* ================= PROGRAM ================= */
 
 .program {
-  padding: 80px;
-  text-align: center;
+  background: linear-gradient(180deg, #f8fafc, #eef6ff);
 }
 
-.program h2 {
-  font-size: 45px;
-  margin-bottom: 30px;
-}
-
-.program-scroll {
-  display: flex;
-  overflow-x: auto;
-  gap: 25px;
-  padding: 20px;
-  scroll-behavior: smooth;
-}
-
-.program-scroll::-webkit-scrollbar {
-  display: none;
-}
-/* ===== FIX TEXT PROGRAM ===== */
-
-.program-card {
-  width: 320px;
-  max-width: 320px;
-  word-wrap: break-word;
-  overflow-wrap: break-word;
-}
-
-/* deskripsi agar tidak terlalu panjang */
-
-.program-desc {
-  word-break: break-word;
-  line-height: 1.5;
-}
-
-/* judul */
-
-.program-card h3 {
-  word-break: break-word;
-}
-/* ================= PROGRAM GRID FIX ================= */
-.program {
-  max-width: 1200px;
-  margin: auto;
-}
 .program-grid {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  gap: 35px;
-}
-.program-grid .program-card {
-  width: 320px;
-  max-width: 320px;
-}
-.program-scroll {
-  display: flex;
-  overflow-x: auto;
-  gap: 25px;
-}
-
-.program-grid .program-card {
-  width: 320px;
+  margin-top: 46px;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 26px;
 }
 
 .program-card {
-  min-width: 360px;
-  background: white;
-  color: #333;
-  padding: 25px;
-  border-radius: 15px;
-  box-shadow: 0px 6px 18px rgba(0, 0, 0, 0.12);
-  text-align: left;
-  transition: 0.3s;
+  background-color: white;
+  border-radius: 24px;
+  padding: 24px;
+  border: 1px solid #e5e7eb;
+  box-shadow: 0 10px 28px rgba(15, 23, 42, 0.07);
+  transition: 0.25s ease;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  overflow: hidden;
+}
+
+.program-card::before {
+  content: "";
+  position: absolute;
+  width: 120px;
+  height: 120px;
+  right: -40px;
+  top: -40px;
+  background: linear-gradient(135deg, #2563eb, #06b6d4);
+  opacity: 0.12;
+  border-radius: 50%;
 }
 
 .program-card:hover {
-  transform: translateY(-6px);
+  transform: translateY(-7px);
+  box-shadow: 0 18px 36px rgba(15, 23, 42, 0.13);
+}
+
+.program-img {
+  width: 100%;
+  height: 170px;
+  object-fit: cover;
+  border-radius: 18px;
+  margin-bottom: 18px;
 }
 
 .program-card h3 {
+  color: #0f172a;
   font-size: 22px;
-  margin-bottom: 10px;
-  color: #0b441a;
+  font-weight: 900;
+  margin-bottom: 12px;
+  position: relative;
+  z-index: 2;
 }
+
 .program-desc {
-  display: -webkit-box;
-  -webkit-line-clamp: 3;
-  -webkit-box-orient: vertical;
-  overflow: hidden;
-}
-.benefit-title {
-  font-weight: 600;
-}
-
-.program-card ul {
-  padding-left: 18px;
-  font-size: 15px;
+  color: #64748b;
+  font-size: 14px;
+  line-height: 1.7;
+  margin-bottom: 18px;
+  flex: 1;
+  position: relative;
+  z-index: 2;
 }
 
-.program-card li {
-  margin-bottom: 5px;
+.program-info {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-bottom: 18px;
+  position: relative;
+  z-index: 2;
+}
+
+.program-info span {
+  background-color: #eff6ff;
+  color: #2563eb;
+  padding: 8px 13px;
+  border-radius: 999px;
+  font-size: 13px;
+  font-weight: 800;
 }
 
 .price-box {
-  background: #0b441a;
+  background: linear-gradient(135deg, #2563eb, #06b6d4);
   color: white;
-  padding: 12px;
-  border-radius: 8px;
-  margin-top: 15px;
-  font-weight: bold;
+  padding: 14px 16px;
+  border-radius: 16px;
   text-align: center;
+  font-size: 19px;
+  font-weight: 900;
+  margin-bottom: 18px;
+  position: relative;
+  z-index: 2;
 }
 
 .btn-daftar-card {
-  margin-top: 15px;
   width: 100%;
-  background: #467545;
-  color: white;
-  padding: 12px;
   border: none;
-  border-radius: 8px;
-  font-weight: bold;
+  background-color: #0f172a;
+  color: white;
+  padding: 13px;
+  border-radius: 16px;
+  font-weight: 800;
   cursor: pointer;
-  transition: 0.3s;
+  transition: 0.25s ease;
+  position: relative;
+  z-index: 2;
 }
 
 .btn-daftar-card:hover {
-  background: #2e5c2e;
-}
-
-.note {
-  font-size: 12px;
-  margin-top: 8px;
-  color: #666;
+  background-color: #2563eb;
+  transform: translateY(-2px);
 }
 
 /* ================= TESTIMONI ================= */
 
 .testimoni {
-  padding: 80px;
-  text-align: center;
-}
-
-.testimoni h2 {
-  font-size: 45px;
-  margin-bottom: 20px;
+  background-color: #ffffff;
 }
 
 .testimoni-scroll {
+  margin-top: 46px;
   display: flex;
+  gap: 24px;
   overflow-x: auto;
-  gap: 25px;
-  padding: 20px;
+  padding: 12px 4px 24px;
 }
 
 .testimoni-scroll::-webkit-scrollbar {
-  display: none;
+  height: 8px;
+}
+
+.testimoni-scroll::-webkit-scrollbar-track {
+  background-color: #f1f5f9;
+  border-radius: 999px;
+}
+
+.testimoni-scroll::-webkit-scrollbar-thumb {
+  background: linear-gradient(135deg, #2563eb, #06b6d4);
+  border-radius: 999px;
 }
 
 .testimoni-card {
-  min-width: 300px;
-  background: white;
-  padding: 25px;
-  border-radius: 15px;
-  box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.1);
-  transition: 0.3s;
+  min-width: 290px;
+  background: linear-gradient(180deg, #ffffff, #f8fafc);
+  border-radius: 24px;
+  padding: 26px;
+  text-align: center;
+  border: 1px solid #e5e7eb;
+  box-shadow: 0 10px 26px rgba(15, 23, 42, 0.07);
+  transition: 0.25s ease;
 }
 
 .testimoni-card:hover {
-  transform: translateY(-5px);
+  transform: translateY(-6px);
+  box-shadow: 0 16px 34px rgba(15, 23, 42, 0.12);
 }
 
 .testimoni-card img {
-  width: 120px;
+  width: 88px;
+  height: 88px;
   border-radius: 50%;
-  margin-bottom: 10px;
+  object-fit: cover;
+  margin-bottom: 14px;
+  border: 5px solid #dbeafe;
 }
 
-.pesan {
+.testimoni-card h4 {
+  color: #0f172a;
+  font-size: 17px;
+  font-weight: 900;
+  margin-bottom: 8px;
+}
+
+.testimoni-card p {
+  color: #64748b;
+  font-size: 14px;
+  line-height: 1.5;
+  margin-bottom: 6px;
+}
+
+.testimoni-card .pesan {
+  margin-top: 14px;
+  color: #334155;
   font-style: italic;
-  margin-top: 10px;
 }
 
-.signature {
-  font-size: 12px;
-  margin-top: 10px;
-  color: #777;
+.testimoni-card .signature {
+  margin-top: 12px;
+  color: #2563eb;
+  font-weight: 800;
 }
 
 /* ================= RESPONSIVE ================= */
 
-@media (max-width: 900px) {
+@media (max-width: 992px) {
+  .navbar {
+    padding: 0 35px;
+  }
+
+  .nav-menu {
+    gap: 18px;
+  }
+
   .hero {
-    flex-direction: column;
-    text-align: center;
-    gap: 40px;
+    padding: 130px 40px 80px;
   }
 
   .hero-text h1 {
-    font-size: 60px;
+    font-size: 58px;
   }
 
-  .hero-image img {
-    width: 300px;
+  .about,
+  .program,
+  .testimoni {
+    padding: 80px 40px;
+  }
+}
+
+@media (max-width: 768px) {
+  .navbar {
+    padding: 16px 22px;
+    flex-wrap: wrap;
+    gap: 14px;
   }
 
-  .program-scroll {
-    flex-direction: column;
-    align-items: center;
+  .nav-menu {
+    width: 100%;
+    order: 3;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 14px;
+  }
+
+  .btn-daftar {
+    padding: 10px 16px;
+    font-size: 13px;
+  }
+
+  .hero {
+    min-height: 88vh;
+    padding: 160px 24px 70px;
+    text-align: center;
+    justify-content: center;
+  }
+
+  .hero-text h1 {
+    font-size: 44px;
+  }
+
+  .hero-text p {
+    font-size: 19px;
+  }
+
+  .about,
+  .program,
+  .testimoni {
+    padding: 65px 22px;
+  }
+
+  .about h2,
+  .program h2,
+  .testimoni h2 {
+    font-size: 28px;
+  }
+
+  .program-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 480px) {
+  .logo img {
+    width: 48px;
+    height: 48px;
+  }
+
+  .hero-text h1 {
+    font-size: 36px;
+  }
+
+  .hero-text p {
+    font-size: 16px;
+  }
+
+  .hero-btn {
+    width: 100%;
+  }
+
+  .testimoni-card {
+    min-width: 260px;
   }
 }

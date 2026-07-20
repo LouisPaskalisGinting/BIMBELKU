@@ -15,37 +15,23 @@ export default function DetailKelas() {
     fetchSiswaKelas();
   }, [id]);
 
-  // ============================
-  // FETCH DETAIL KELAS
-  // ============================
   const fetchKelas = async () => {
     try {
       const res = await fetch(`http://localhost:3000/kelas/${id}`);
       const data = await res.json();
 
-      console.log("DETAIL KELAS:", data);
-
-      // jika backend mengirim array
-      if (Array.isArray(data)) {
-        setKelas(data[0] || {});
-      } else {
-        // jika backend mengirim object
-        setKelas(data || {});
-      }
+      setKelas(Array.isArray(data) ? data[0] || {} : data || {});
     } catch (err) {
       console.error("ERROR FETCH KELAS:", err);
     }
   };
 
-  // ============================
-  // FETCH SISWA DALAM KELAS
-  // ============================
   const fetchSiswaKelas = async () => {
     try {
-      const res = await fetch(`http://localhost:3000/siswa/kelas-bimbel/${id}`);
+      const res = await fetch(`http://localhost:3000/siswa/kelas/${id}`);
       const data = await res.json();
 
-      console.log("SISWA KELAS:", data);
+      console.log("SISWA DALAM KELAS:", data);
 
       setSiswaKelas(Array.isArray(data) ? data : []);
     } catch (err) {
@@ -54,9 +40,6 @@ export default function DetailKelas() {
     }
   };
 
-  // ============================
-  // SEARCH SISWA
-  // ============================
   const cariSiswa = async (value) => {
     setSearch(value);
 
@@ -69,8 +52,6 @@ export default function DetailKelas() {
       const res = await fetch(`http://localhost:3000/siswa/search/${value}`);
       const data = await res.json();
 
-      console.log("HASIL CARI:", data);
-
       setHasilCari(Array.isArray(data) ? data : []);
     } catch (err) {
       console.error("ERROR SEARCH SISWA:", err);
@@ -78,30 +59,16 @@ export default function DetailKelas() {
     }
   };
 
-  // ============================
-  // TAMBAH SISWA KE KELAS
-  // ============================
   const pilihSiswa = async (idSiswa) => {
     try {
-      console.log("SISWA DIPILIH:", idSiswa);
-      console.log("KELAS ID:", id);
-
       const res = await fetch(
-        `http://localhost:3000/siswa/masuk-kelas/${idSiswa}`,
+        `http://localhost:3000/siswa/masuk-kelas/${idSiswa}/${id}`,
         {
           method: "PUT",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            kelas_bimbel_id: id,
-          }),
         }
       );
 
       const result = await res.json();
-
-      console.log("HASIL TAMBAH:", result);
 
       if (!res.ok) {
         alert(result.message || "Gagal menambahkan siswa");
@@ -119,27 +86,19 @@ export default function DetailKelas() {
     }
   };
 
-  // ============================
-  // KELUARKAN SISWA DARI KELAS
-  // ============================
   const hapusSiswa = async (idSiswa) => {
+    const yakin = window.confirm("Keluarkan siswa dari kelas ini?");
+    if (!yakin) return;
+
     try {
       const res = await fetch(
-        `http://localhost:3000/siswa/masuk-kelas/${idSiswa}`,
+        `http://localhost:3000/siswa/keluar-kelas/${idSiswa}`,
         {
           method: "PUT",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            kelas_bimbel_id: null,
-          }),
         }
       );
 
       const result = await res.json();
-
-      console.log("HASIL HAPUS:", result);
 
       if (!res.ok) {
         alert(result.message || "Gagal mengeluarkan siswa");
@@ -158,84 +117,86 @@ export default function DetailKelas() {
     <div className="detail-kelas-container">
       <h1>Detail Kelas</h1>
 
-      <div className="detail-kelas-card">
-        <h3>Kelas: {kelas?.nama_kelas || "-"}</h3>
-        <p>Program: {kelas?.program || "-"}</p>
+      <div className="kelas-top-row">
+        <div className="detail-kelas-card">
+          <h3>Kelas: {kelas?.nama_kelas || "-"}</h3>
+          <p>Program: {kelas?.nama_program || kelas?.program || "-"}</p>
+        </div>
+
+        <div className="tambah-siswa-card">
+          <h2>Tambah Siswa</h2>
+
+          <div className="search-box">
+            <input
+              type="text"
+              placeholder="Ketik nama siswa..."
+              value={search}
+              onChange={(e) => cariSiswa(e.target.value)}
+            />
+
+            {hasilCari.length > 0 && (
+              <div className="search-result">
+                {hasilCari.map((s) => (
+                  <div
+                    key={s.id}
+                    className="search-item"
+                    onClick={() => pilihSiswa(s.id)}
+                  >
+                    <strong>{s.nama}</strong>
+                    <span>
+                      {s.nama_program || "-"} •{" "}
+                      {s.nama_kelas || "Belum ada kelas"}
+                    </span>
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
+        </div>
       </div>
 
-      <hr />
+      <div className="siswa-table-card">
+        <h2>Daftar Siswa</h2>
 
-      <h2>Tambah Siswa</h2>
+        <table className="siswa-table">
+          <thead>
+            <tr>
+              <th>Nama</th>
+              <th>Sekolah</th>
+              <th>No HP</th>
+              <th>Program</th>
+              <th>Aksi</th>
+            </tr>
+          </thead>
 
-      <input
-        type="text"
-        placeholder="Ketik nama siswa..."
-        value={search}
-        onChange={(e) => cariSiswa(e.target.value)}
-        style={{
-          padding: "8px",
-          width: "300px",
-        }}
-      />
-
-      {hasilCari.length > 0 && (
-        <div
-          style={{
-            border: "1px solid #ccc",
-            width: "300px",
-            background: "white",
-            marginTop: "5px",
-          }}
-        >
-          {hasilCari.map((s) => (
-            <div
-              key={s.id}
-              style={{
-                padding: "8px",
-                cursor: "pointer",
-                borderBottom: "1px solid #eee",
-              }}
-              onClick={() => pilihSiswa(s.id)}
-            >
-              {s.nama} - {s.nama_program || "-"}
-            </div>
-          ))}
-        </div>
-      )}
-
-      <hr />
-
-      <h2>Daftar Siswa</h2>
-
-      <table border="1" cellPadding="10">
-        <thead>
-          <tr>
-            <th>Nama</th>
-            <th>Sekolah</th>
-            <th>No HP</th>
-            <th>Aksi</th>
-          </tr>
-        </thead>
-
-        <tbody>
-          {siswaKelas.length > 0 ? (
-            siswaKelas.map((s) => (
-              <tr key={s.id}>
-                <td>{s.nama}</td>
-                <td>{s.asal_sekolah}</td>
-                <td>{s.no_hp}</td>
-                <td>
-                  <button onClick={() => hapusSiswa(s.id)}>Keluarkan</button>
+          <tbody>
+            {siswaKelas.length > 0 ? (
+              siswaKelas.map((s) => (
+                <tr key={s.id}>
+                  <td>{s.nama || "-"}</td>
+                  <td>{s.asal_sekolah || "-"}</td>
+                  <td>{s.no_hp || "-"}</td>
+                  <td>{s.nama_program || "-"}</td>
+                  <td>
+                    <button
+                      className="btn-delete"
+                      onClick={() => hapusSiswa(s.id)}
+                    >
+                      Keluarkan
+                    </button>
+                  </td>
+                </tr>
+              ))
+            ) : (
+              <tr>
+                <td colSpan="5" className="empty-data">
+                  Belum ada siswa di kelas ini
                 </td>
               </tr>
-            ))
-          ) : (
-            <tr>
-              <td colSpan="4">Belum ada siswa di kelas ini</td>
-            </tr>
-          )}
-        </tbody>
-      </table>
+            )}
+          </tbody>
+        </table>
+      </div>
     </div>
   );
 }

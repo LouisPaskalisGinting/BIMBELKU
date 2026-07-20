@@ -1,73 +1,279 @@
+* {
+  box-sizing: border-box;
+  font-family: "Inter", "Segoe UI", Arial, sans-serif;
+}
+
+/* ===== ROOT PAGE ===== */
 .pembayaran-page {
-  padding: 30px;
+  min-height: 100vh;
+  padding: 32px;
+  background: #f4f7f5;
+  color: #1f2937;
 }
 
+/* ===== TITLE ===== */
+.pembayaran-page h1 {
+  font-size: 32px;
+  font-weight: 700;
+  margin-bottom: 24px;
+  color: #14532d;
+}
+
+/* ===== SEARCH INPUT ===== */
 .search-input {
-  padding: 10px;
-  width: 250px;
-  margin-bottom: 20px;
+  width: 280px;
+  max-width: 100%;
+  padding: 12px 14px;
+  margin-bottom: 24px;
+  border: 1px solid #d1d5db;
+  border-radius: 10px;
+  background: #ffffff;
+  font-size: 14px;
+  outline: none;
+  transition: 0.2s ease;
 }
 
+.search-input:focus {
+  border-color: #16a34a;
+  box-shadow: 0 0 0 3px rgba(22, 163, 74, 0.12);
+}
+
+/* ===== MAIN TABLE ===== */
 .pembayaran-table {
   width: 100%;
-  border-collapse: collapse;
+  border-collapse: separate;
+  border-spacing: 0;
+  background: #ffffff;
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
+}
+
+.pembayaran-table thead {
+  background: #166534;
+  color: #ffffff;
 }
 
 .pembayaran-table th {
-  background: #5f5f5f;
-  color: white;
-  padding: 10px;
+  padding: 16px;
+  text-align: left;
+  font-size: 14px;
+  font-weight: 600;
+  letter-spacing: 0.3px;
 }
 
 .pembayaran-table td {
-  background: #e0e0e0;
-  padding: 10px;
+  padding: 16px;
+  font-size: 14px;
+  color: #374151;
+  background: #ffffff;
+  border-bottom: 1px solid #e5e7eb;
 }
 
+.pembayaran-table tbody tr {
+  transition: 0.2s ease;
+}
+
+.pembayaran-table tbody tr:hover td {
+  background: #f0fdf4;
+}
+
+.pembayaran-table tbody tr:last-child td {
+  border-bottom: none;
+}
+
+/* ===== DETAIL BUTTON ===== */
 .btn-detail {
-  background: #467545;
-  color: white;
   border: none;
-  padding: 6px 12px;
+  border-radius: 8px;
+  padding: 8px 14px;
+  background: #dcfce7;
+  color: #166534;
+  font-size: 13px;
+  font-weight: 700;
   cursor: pointer;
+  transition: 0.2s ease;
 }
 
+.btn-detail:hover {
+  background: #bbf7d0;
+  transform: translateY(-1px);
+}
+
+/* ===== MODAL OVERLAY ===== */
 .modal-overlay {
   position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: rgba(0, 0, 0, 0.4);
+  inset: 0;
+  background: rgba(15, 23, 42, 0.55);
+  backdrop-filter: blur(4px);
   display: flex;
   justify-content: center;
   align-items: center;
+  z-index: 999;
+  padding: 20px;
 }
 
+/* ===== MODAL ===== */
 .modal {
-  background: white;
-  padding: 25px;
-  width: 400px;
-  border-radius: 10px;
+  width: 900px;
+  max-width: 95%;
+  max-height: 90vh;
+  overflow-y: auto;
+  background: #ffffff;
+  padding: 28px;
+  border-radius: 18px;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+  animation: modalFade 0.25s ease;
 }
 
-.bayar-form {
-  display: flex;
-  gap: 10px;
-  margin-bottom: 20px;
+.modal h2 {
+  margin: 0 0 18px;
+  font-size: 24px;
+  font-weight: 700;
+  color: #14532d;
 }
 
+/* ===== DETAIL TABLE ===== */
 .detail-table {
   width: 100%;
-  border-collapse: collapse;
+  border-collapse: separate;
+  border-spacing: 0;
+  background: #ffffff;
+  border-radius: 12px;
+  overflow: hidden;
+  border: 1px solid #e5e7eb;
 }
 
-.detail-table td,
+.detail-table thead {
+  background: #166534;
+  color: #ffffff;
+}
+
 .detail-table th {
-  border: 1px solid #ddd;
-  padding: 8px;
+  padding: 14px;
+  text-align: left;
+  font-size: 13px;
+  font-weight: 600;
 }
 
+.detail-table td {
+  padding: 14px;
+  font-size: 13px;
+  color: #374151;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.detail-table tbody tr:hover td {
+  background: #f0fdf4;
+}
+
+.detail-table tbody tr:last-child td {
+  border-bottom: none;
+}
+
+/* ===== LINK BUKTI ===== */
+.detail-table a {
+  color: #15803d;
+  font-weight: 700;
+  text-decoration: none;
+}
+
+.detail-table a:hover {
+  text-decoration: underline;
+}
+
+/* ===== BUTTON SETUJUI / TOLAK ===== */
+.detail-table button {
+  border: none;
+  border-radius: 8px;
+  padding: 7px 12px;
+  margin-right: 6px;
+  font-size: 12px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: 0.2s ease;
+}
+
+/* tombol setujui */
+.detail-table button:first-child {
+  background: #dcfce7;
+  color: #166534;
+}
+
+.detail-table button:first-child:hover {
+  background: #bbf7d0;
+}
+
+/* tombol tolak */
+.detail-table button:nth-child(2) {
+  background: #fee2e2;
+  color: #b91c1c;
+}
+
+.detail-table button:nth-child(2):hover {
+  background: #fecaca;
+}
+
+/* ===== CLOSE BUTTON ===== */
 .btn-close {
-  margin-top: 20px;
+  width: 100%;
+  margin-top: 22px;
+  border: none;
+  border-radius: 10px;
+  padding: 12px;
+  background: #166534;
+  color: #ffffff;
+  font-size: 14px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: 0.2s ease;
+}
+
+.btn-close:hover {
+  background: #14532d;
+}
+
+/* ===== ANIMATION ===== */
+@keyframes modalFade {
+  from {
+    opacity: 0;
+    transform: translateY(12px) scale(0.97);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+/* ===== RESPONSIVE ===== */
+@media (max-width: 768px) {
+  .pembayaran-page {
+    padding: 20px;
+  }
+
+  .pembayaran-page h1 {
+    font-size: 26px;
+  }
+
+  .search-input {
+    width: 100%;
+  }
+
+  .pembayaran-table {
+    display: block;
+    overflow-x: auto;
+    white-space: nowrap;
+  }
+
+  .modal {
+    width: 100%;
+    padding: 20px;
+  }
+
+  .detail-table {
+    display: block;
+    overflow-x: auto;
+    white-space: nowrap;
+  }
 }

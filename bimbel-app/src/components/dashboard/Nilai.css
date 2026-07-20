@@ -1,0 +1,203 @@
+* {
+  box-sizing: border-box;
+  font-family: "Inter", "Segoe UI", Arial, sans-serif;
+}
+
+/* ===== ROOT PAGE ===== */
+.upload-nilai-page {
+  min-height: 100vh;
+  padding: 32px;
+  background: #f4f7f5;
+  color: #1f2937;
+}
+
+/* ===== TITLE ===== */
+.upload-nilai-page h1 {
+  font-size: 32px;
+  font-weight: 700;
+  margin-bottom: 24px;
+  color: #14532d;
+}
+
+.upload-nilai-page h2 {
+  font-size: 20px;
+  font-weight: 700;
+  margin: 0 0 18px;
+  color: #14532d;
+}
+
+/* ===== UPLOAD CARD ===== */
+.upload-card {
+  background: #ffffff;
+  padding: 24px;
+  border-radius: 16px;
+  margin-bottom: 24px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
+  max-width: 720px;
+}
+
+/* ===== FORM ===== */
+.upload-form {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.form-group label {
+  font-size: 14px;
+  font-weight: 700;
+  color: #374151;
+}
+
+.form-group select,
+.form-group input {
+  width: 100%;
+  padding: 12px 14px;
+  border: 1px solid #d1d5db;
+  border-radius: 10px;
+  background: #ffffff;
+  font-size: 14px;
+  outline: none;
+  transition: 0.2s ease;
+}
+
+.form-group select:focus,
+.form-group input:focus {
+  border-color: #16a34a;
+  box-shadow: 0 0 0 3px rgba(22, 163, 74, 0.12);
+}
+
+/* ===== FILE NAME ===== */
+.file-name {
+  margin: 4px 0 0;
+  font-size: 13px;
+  color: #15803d;
+  font-weight: 600;
+}
+
+/* ===== UPLOAD BUTTON ===== */
+.btn-upload {
+  width: fit-content;
+  border: none;
+  border-radius: 10px;
+  padding: 12px 18px;
+  background: #166534;
+  color: #ffffff;
+  font-size: 14px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: 0.2s ease;
+}
+
+.btn-upload:hover {
+  background: #14532d;
+  transform: translateY(-1px);
+}
+
+/* ===== FILE CARD ===== */
+.file-card {
+  background: #ffffff;
+  padding: 24px;
+  border-radius: 16px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
+}
+
+/* ===== FILE LIST ===== */
+.file-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.file-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 14px;
+  padding: 16px;
+  border: 1px solid #e5e7eb;
+  border-radius: 12px;
+  background: #ffffff;
+  transition: 0.2s ease;
+}
+
+.file-item:hover {
+  background: #f0fdf4;
+  border-color: #bbf7d0;
+}
+
+.file-item h3 {
+  margin: 0 0 4px;
+  font-size: 15px;
+  color: #1f2937;
+}
+
+.file-item p {
+  margin: 0;
+  font-size: 13px;
+  color: #6b7280;
+}
+
+/* ===== OPEN BUTTON ===== */
+.btn-open {
+  border-radius: 8px;
+  padding: 8px 14px;
+  background: #dcfce7;
+  color: #166534;
+  font-size: 13px;
+  font-weight: 700;
+  text-decoration: none;
+  transition: 0.2s ease;
+}
+
+.btn-open:hover {
+  background: #bbf7d0;
+  transform: translateY(-1px);
+}
+
+/* ===== EMPTY FILE ===== */
+.empty-file {
+  padding: 24px;
+  text-align: center;
+  color: #6b7280;
+  background: #f9fafb;
+  border: 1px dashed #d1d5db;
+  border-radius: 12px;
+  font-size: 14px;
+}
+
+/* ===== RESPONSIVE ===== */
+@media (max-width: 768px) {
+  .upload-nilai-page {
+    padding: 20px;
+  }
+
+  .upload-nilai-page h1 {
+    font-size: 26px;
+  }
+
+  .upload-card,
+  .file-card {
+    padding: 20px;
+  }
+
+  .btn-upload {
+    width: 100%;
+  }
+
+  .file-item {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .btn-open {
+    width: 100%;
+    text-align: center;
+  }
+}

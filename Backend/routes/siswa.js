@@ -3,9 +3,8 @@ const db = require("../db");
 const router = express.Router();
 const bcrypt = require("bcryptjs");
 
-// ===============================
 // GET semua siswa approved
-// ===============================
+
 router.get("/", (req, res) => {
   const sql = `
     SELECT 
@@ -15,18 +14,21 @@ router.get("/", (req, res) => {
     FROM siswa
     LEFT JOIN program ON siswa.program_id = program.id
     LEFT JOIN kelas ON siswa.kelas_id = kelas.id
-    WHERE siswa.status='approved'
+    WHERE siswa.status = 'approved'
   `;
 
   db.query(sql, (err, result) => {
-    if (err) return res.status(500).json(err);
+    if (err) {
+      console.log("ERROR GET SISWA:", err);
+      return res.status(500).json(err);
+    }
+
     res.json(result);
   });
 });
 
-// ===============================
 // GET siswa pending
-// ===============================
+
 router.get("/pending", (req, res) => {
   const sql = `
     SELECT 
@@ -36,18 +38,21 @@ router.get("/pending", (req, res) => {
     FROM siswa
     LEFT JOIN program ON siswa.program_id = program.id
     LEFT JOIN kelas ON siswa.kelas_id = kelas.id
-    WHERE siswa.status='pending'
+    WHERE siswa.status = 'pending'
   `;
 
   db.query(sql, (err, result) => {
-    if (err) return res.status(500).json(err);
+    if (err) {
+      console.log("ERROR GET SISWA PENDING:", err);
+      return res.status(500).json(err);
+    }
+
     res.json(result);
   });
 });
 
-// ===============================
-// GET DETAIL SISWA UNTUK DASHBOARD
-// ===============================
+// GET DETAIL SISWA UNTUK DASHBOARD SISWA
+
 router.get("/dashboard/:user_id", (req, res) => {
   const { user_id } = req.params;
   const { email } = req.query;
@@ -66,7 +71,7 @@ router.get("/dashboard/:user_id", (req, res) => {
 
   db.query(sql, [user_id, email], (err, result) => {
     if (err) {
-      console.log("DASHBOARD SISWA ERROR:", err);
+      console.log("ERROR DASHBOARD SISWA:", err);
       return res.status(500).json({
         message: "Gagal mengambil data siswa",
       });
@@ -82,79 +87,119 @@ router.get("/dashboard/:user_id", (req, res) => {
   });
 });
 
-// ===============================
 // APPROVE SISWA
-// ===============================
+
 router.put("/approve/:id", (req, res) => {
   const id = req.params.id;
 
-  db.query("SELECT * FROM siswa WHERE id=?", [id], async (err, siswaResult) => {
-    if (err) return res.status(500).json(err);
-
-    if (siswaResult.length === 0) {
-      return res.status(404).json({
-        message: "Siswa tidak ditemukan",
-      });
-    }
-
-    const siswa = siswaResult[0];
-
-    db.query(
-      "SELECT * FROM user WHERE email=?",
-      [siswa.email],
-      async (err, userCheck) => {
-        if (err) return res.status(500).json(err);
-
-        if (userCheck.length > 0) {
-          return res.status(400).json({
-            message: "Email sudah digunakan",
-          });
-        }
-
-        try {
-          const hashedPassword = await bcrypt.hash(siswa.password, 10);
-
-          db.query(
-            `
-          INSERT INTO user (nama, email, password, role)
-          VALUES (?, ?, ?, ?)
-          `,
-            [siswa.nama, siswa.email, hashedPassword, "siswa"],
-            (err, userInsert) => {
-              if (err) return res.status(500).json(err);
-
-              const user_id = userInsert.insertId;
-
-              db.query(
-                `
-              UPDATE siswa
-              SET status='approved', user_id=?
-              WHERE id=?
-              `,
-                [user_id, id],
-                (err) => {
-                  if (err) return res.status(500).json(err);
-
-                  res.json({
-                    message: "Siswa berhasil diapprove",
-                  });
-                }
-              );
-            }
-          );
-        } catch (error) {
-          res.status(500).json({
-            message: "Hash password gagal",
-          });
-        }
+  db.query(
+    "SELECT * FROM siswa WHERE id = ?",
+    [id],
+    async (err, siswaResult) => {
+      if (err) {
+        console.log("ERROR CEK SISWA:", err);
+        return res.status(500).json(err);
       }
-    );
-  });
+
+      if (siswaResult.length === 0) {
+        return res.status(404).json({
+          message: "Siswa tidak ditemukan",
+        });
+      }
+
+      const siswa = siswaResult[0];
+
+      db.query(
+        "SELECT * FROM user WHERE LOWER(email)=LOWER(?)",
+        [siswa.email],
+        async (err, userCheck) => {
+          if (err) {
+            console.log("ERROR CEK USER:", err);
+            return res.status(500).json(err);
+          }
+
+          // JIKA USER SUDAH ADA, PAKAI USER ITU
+          if (userCheck.length > 0) {
+            const user_id = userCheck[0].id;
+
+            db.query(
+              `
+            UPDATE siswa
+            SET status='approved',
+                user_id=?
+            WHERE id=?
+            `,
+              [user_id, id],
+              (err) => {
+                if (err) {
+                  console.log("ERROR UPDATE SISWA EXISTING USER:", err);
+                  return res.status(500).json(err);
+                }
+
+                return res.json({
+                  message:
+                    "Siswa berhasil diapprove dengan user yang sudah ada",
+                });
+              }
+            );
+
+            return;
+          }
+
+          // JIKA USER BELUM ADA, BUAT USER BARU
+          try {
+            const hashedPassword = await bcrypt.hash(siswa.password, 10);
+
+            db.query(
+              `
+            INSERT INTO user (nama, email, password, role)
+            VALUES (?, ?, ?, ?)
+            `,
+              [siswa.nama, siswa.email, hashedPassword, "siswa"],
+              (err, userInsert) => {
+                if (err) {
+                  console.log("ERROR INSERT USER:", err);
+                  return res.status(500).json(err);
+                }
+
+                const user_id = userInsert.insertId;
+
+                db.query(
+                  `
+                UPDATE siswa
+                SET status='approved',
+                    user_id=?
+                WHERE id=?
+                `,
+                  [user_id, id],
+                  (err) => {
+                    if (err) {
+                      console.log("ERROR APPROVE SISWA:", err);
+                      return res.status(500).json(err);
+                    }
+
+                    res.json({
+                      message: "Siswa berhasil diapprove",
+                    });
+                  }
+                );
+              }
+            );
+          } catch (error) {
+            console.log("ERROR HASH PASSWORD:", error);
+
+            res.status(500).json({
+              message: "Hash password gagal",
+            });
+          }
+        }
+      );
+    }
+  );
 });
 
-// ===============================
 // SEARCH SISWA
-// ===============================
+
 router.get("/search/:nama", (req, res) => {
   const nama = req.params.nama;
 
@@ -163,23 +208,31 @@ router.get("/search/:nama", (req, res) => {
       siswa.id,
       siswa.nama,
       siswa.email,
+      siswa.asal_sekolah,
+      siswa.no_hp,
+      siswa.program_id,
+      siswa.kelas_id,
       program.nama_program,
       kelas.nama_kelas
     FROM siswa
     LEFT JOIN program ON siswa.program_id = program.id
     LEFT JOIN kelas ON siswa.kelas_id = kelas.id
     WHERE siswa.nama LIKE ?
+      AND siswa.status = 'approved'
   `;
 
   db.query(sql, [`%${nama}%`], (err, result) => {
-    if (err) return res.status(500).json(err);
+    if (err) {
+      console.log("ERROR SEARCH SISWA:", err);
+      return res.status(500).json(err);
+    }
+
     res.json(result);
   });
 });
 
-// ===============================
-// SISWA BERDASARKAN KELAS
-// ===============================
+// SISWA BERDASARKAN KELAS_ID
+
 router.get("/kelas/:kelas_id", (req, res) => {
   const kelas_id = req.params.kelas_id;
 
@@ -192,26 +245,23 @@ router.get("/kelas/:kelas_id", (req, res) => {
     LEFT JOIN program ON siswa.program_id = program.id
     LEFT JOIN kelas ON siswa.kelas_id = kelas.id
     WHERE siswa.kelas_id = ?
+      AND siswa.status = 'approved'
   `;
 
   db.query(sql, [kelas_id], (err, result) => {
-    if (err) return res.status(500).json(err);
+    if (err) {
+      console.log("ERROR GET SISWA BY KELAS:", err);
+      return res.status(500).json(err);
+    }
+
     res.json(result);
   });
 });
 
-// ===============================
 // MASUKKAN SISWA KE KELAS
-// ===============================
-router.put("/masuk-kelas/:id", (req, res) => {
-  const id = req.params.id;
-  const { kelas_id } = req.body;
 
-  if (!kelas_id) {
-    return res.status(400).json({
-      message: "kelas_id wajib diisi",
-    });
-  }
+router.put("/masuk-kelas/:siswa_id/:kelas_id", (req, res) => {
+  const { siswa_id, kelas_id } = req.params;
 
   const sql = `
     UPDATE siswa
@@ -219,11 +269,17 @@ router.put("/masuk-kelas/:id", (req, res) => {
     WHERE id = ?
   `;
 
-  db.query(sql, [kelas_id, id], (err, result) => {
+  db.query(sql, [kelas_id, siswa_id], (err, result) => {
     if (err) {
       console.log("ERROR MASUK KELAS:", err);
       return res.status(500).json({
         message: "Gagal memasukkan siswa ke kelas",
+      });
+    }
+
+    if (result.affectedRows === 0) {
+      return res.status(404).json({
+        message: "Siswa tidak ditemukan",
       });
     }
 
@@ -233,32 +289,39 @@ router.put("/masuk-kelas/:id", (req, res) => {
   });
 });
 
-// ===============================
-// SISWA BERDASARKAN KELAS BIMBEL
-// ===============================
-router.get("/kelas-bimbel/:id", (req, res) => {
-  const id = req.params.id;
+// KELUARKAN SISWA DARI KELAS
+
+router.put("/keluar-kelas/:siswa_id", (req, res) => {
+  const { siswa_id } = req.params;
 
   const sql = `
-    SELECT 
-      siswa.*,
-      program.nama_program,
-      kelas.nama_kelas
-    FROM siswa
-    LEFT JOIN program ON siswa.program_id = program.id
-    LEFT JOIN kelas ON siswa.kelas_id = kelas.id
-    WHERE siswa.kelas_bimbel_id = ?
+    UPDATE siswa
+    SET kelas_id = NULL
+    WHERE id = ?
   `;
 
-  db.query(sql, [id], (err, result) => {
-    if (err) return res.status(500).json(err);
-    res.json(result);
+  db.query(sql, [siswa_id], (err, result) => {
+    if (err) {
+      console.log("ERROR KELUAR KELAS:", err);
+      return res.status(500).json({
+        message: "Gagal mengeluarkan siswa dari kelas",
+      });
+    }
+
+    if (result.affectedRows === 0) {
+      return res.status(404).json({
+        message: "Siswa tidak ditemukan",
+      });
+    }
+
+    res.json({
+      message: "Siswa berhasil dikeluarkan dari kelas",
+    });
   });
 });
 
-// ===============================
 // GET DETAIL SISWA BY ID
-// ===============================
+
 router.get("/:id", (req, res) => {
   const id = req.params.id;
 
@@ -270,11 +333,14 @@ router.get("/:id", (req, res) => {
     FROM siswa
     LEFT JOIN program ON siswa.program_id = program.id
     LEFT JOIN kelas ON siswa.kelas_id = kelas.id
-    WHERE siswa.id=?
+    WHERE siswa.id = ?
   `;
 
   db.query(sql, [id], (err, result) => {
-    if (err) return res.status(500).json(err);
+    if (err) {
+      console.log("ERROR GET DETAIL SISWA:", err);
+      return res.status(500).json(err);
+    }
 
     if (result.length === 0) {
       return res.status(404).json({
@@ -286,12 +352,13 @@ router.get("/:id", (req, res) => {
   });
 });
 
-// ===============================
 // TAMBAH SISWA
-// ===============================
 router.post("/", (req, res) => {
   db.query("INSERT INTO siswa SET ?", req.body, (err) => {
-    if (err) return res.status(500).json(err);
+    if (err) {
+      console.log("ERROR TAMBAH SISWA:", err);
+      return res.status(500).json(err);
+    }
 
     res.json({
       message: "Siswa berhasil ditambahkan",
@@ -299,9 +366,8 @@ router.post("/", (req, res) => {
   });
 });
 
-// ===============================
 // UPDATE SISWA
-// ===============================
+
 router.put("/:id", (req, res) => {
   const id = req.params.id;
 
@@ -319,15 +385,15 @@ router.put("/:id", (req, res) => {
   const sql = `
     UPDATE siswa
     SET
-      nama=?,
-      email=?,
-      asal_sekolah=?,
-      no_hp=?,
-      nama_orangtua=?,
-      no_hp_orangtua=?,
-      program_id=?,
-      kelas_id=?
-    WHERE id=?
+      nama = ?,
+      email = ?,
+      asal_sekolah = ?,
+      no_hp = ?,
+      nama_orangtua = ?,
+      no_hp_orangtua = ?,
+      program_id = ?,
+      kelas_id = ?
+    WHERE id = ?
   `;
 
   db.query(
@@ -344,7 +410,10 @@ router.put("/:id", (req, res) => {
       id,
     ],
     (err) => {
-      if (err) return res.status(500).json(err);
+      if (err) {
+        console.log("ERROR UPDATE SISWA:", err);
+        return res.status(500).json(err);
+      }
 
       res.json({
         message: "Update berhasil",
@@ -353,17 +422,54 @@ router.put("/:id", (req, res) => {
   );
 });
 
-// ===============================
-// DELETE SISWA
-// ===============================
+// DELETE SISWA + USER
+
 router.delete("/:id", (req, res) => {
   const id = req.params.id;
 
-  db.query("DELETE FROM siswa WHERE id=?", [id], (err) => {
-    if (err) return res.status(500).json(err);
+  // ambil user_id siswa dulu
+  db.query("SELECT user_id FROM siswa WHERE id = ?", [id], (err, result) => {
+    if (err) {
+      console.log("ERROR CEK SISWA:", err);
+      return res.status(500).json(err);
+    }
 
-    res.json({
-      message: "Siswa berhasil dihapus",
+    if (result.length === 0) {
+      return res.status(404).json({
+        message: "Siswa tidak ditemukan",
+      });
+    }
+
+    const user_id = result[0].user_id;
+
+    // hapus siswa
+    db.query("DELETE FROM siswa WHERE id = ?", [id], (err) => {
+      if (err) {
+        console.log("ERROR DELETE SISWA:", err);
+        return res.status(500).json(err);
+      }
+
+      // jika siswa punya user_id, hapus juga user
+      if (user_id) {
+        db.query(
+          "DELETE FROM user WHERE id = ? AND role = 'siswa'",
+          [user_id],
+          (err) => {
+            if (err) {
+              console.log("ERROR DELETE USER:", err);
+              return res.status(500).json(err);
+            }
+
+            return res.json({
+              message: "Siswa dan akun user berhasil dihapus",
+            });
+          }
+        );
+      } else {
+        return res.json({
+          message: "Siswa berhasil dihapus",
+        });
+      }
     });
   });
 });

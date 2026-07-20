@@ -28,10 +28,16 @@ import NilaiSiswa from "./components/dashboardsiswa/NilaiSiswa";
 import AbsensiSiswa from "./components/dashboardsiswa/AbsensiSiswa";
 import PembayaranSiswa from "./components/dashboardsiswa/PembayaranSiswa";
 import PengumumanSiswa from "./components/dashboardsiswa/PengumumanSiswa";
-
 import DashboardTentor from "./components/dashboardtentor/DashboardTentor";
 import ForgotPassword from "./components/ForgotPassword";
 import ResetPassword from "./components/ResetPassword";
+import KelolaLandingPage from "./components/dashboard/KelolaLandingPage";
+import HeroManagement from "./components/dashboard/HeroManagement";
+import AboutManagement from "./components/dashboard/AboutManagement";
+import TestimonialManagement from "./components/dashboard/TestimonialManagement";
+import GaleriManagement from "./components/dashboard/GaleriManagement";
+import KontakManagement from "./components/dashboard/KontakManagement";
+import FaqManagement from "./components/dashboard/FaqManagement";
 
 function App() {
   return (
@@ -60,6 +66,16 @@ function App() {
           <Route path="/kelas/:id" element={<DetailKelas />} />
           <Route path="/program" element={<Program />} />
           <Route path="/dashboard-tentor" element={<DashboardTentor />} />
+          <Route path="/Kelola-Landingpage" element={<KelolaLandingPage />} />
+          <Route path="/landing/hero" element={<HeroManagement />} />
+          <Route path="/landing/about" element={<AboutManagement />} />
+          <Route path="/landing/galeri" element={<GaleriManagement />} />
+          <Route path="/landing/faq" element={<FaqManagement />} />
+          <Route path="/landing/kontak" element={<KontakManagement />} />
+          <Route
+            path="/landing/testimoni"
+            element={<TestimonialManagement />}
+          />
         </Route>
 
         {/* SISWA */}

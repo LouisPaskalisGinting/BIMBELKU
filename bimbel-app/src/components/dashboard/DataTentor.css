@@ -1,107 +1,345 @@
+* {
+  box-sizing: border-box;
+  font-family: "Inter", "Segoe UI", Arial, sans-serif;
+}
+
+/* ===== ROOT PAGE ===== */
 .tentor-page {
-  padding: 30px;
+  min-height: 100vh;
+  padding: 32px;
+  background: #f4f7f5;
+  color: #1f2937;
 }
 
+/* ===== TITLE ===== */
 .tentor-page h1 {
-  font-size: 36px;
-  margin-bottom: 20px;
+  font-size: 32px;
+  font-weight: 700;
+  margin-bottom: 24px;
+  color: #14532d;
 }
 
-/* toolbar */
+/* ===== TOOLBAR ===== */
 .tentor-toolbar {
   display: flex;
   justify-content: space-between;
-  margin-bottom: 20px;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 24px;
 }
 
 .tentor-toolbar input {
-  width: 260px;
-  padding: 10px;
-  background: #e6e6e6;
-  border: none;
-  border-radius: 6px;
+  width: 280px;
+  padding: 12px 14px;
+  border: 1px solid #d1d5db;
+  border-radius: 10px;
+  background: #ffffff;
+  font-size: 14px;
+  outline: none;
+  transition: 0.2s ease;
 }
 
+.tentor-toolbar input:focus {
+  border-color: #16a34a;
+  box-shadow: 0 0 0 3px rgba(22, 163, 74, 0.12);
+}
+
+/* ===== BUTTON ADD ===== */
 .btn-add {
-  background: #e6e6e6;
   border: none;
-  padding: 10px 18px;
+  border-radius: 10px;
+  padding: 12px 18px;
+  background: #166534;
+  color: #ffffff;
+  font-size: 14px;
+  font-weight: 600;
   cursor: pointer;
-  border-radius: 6px;
+  transition: 0.2s ease;
 }
 
-/* table */
-.tentor-table-wrapper {
-  background: white;
-  padding: 20px;
+.btn-add:hover {
+  background: #14532d;
+  transform: translateY(-1px);
 }
 
+/* ===== TABLE CARD ===== */
+.tentor-table-card {
+  width: 100%;
+  background: #ffffff;
+  border-radius: 16px;
+  overflow-x: auto;
+  overflow-y: hidden;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
+}
+
+/* ===== TABLE FIXED ===== */
 .tentor-table {
   width: 100%;
-  border-collapse: collapse;
+  min-width: 860px;
+  table-layout: fixed;
+  border-collapse: separate;
+  border-spacing: 0;
 }
 
+/* ===== FIXED COLUMN WIDTH ===== */
+.col-nama {
+  width: 18%;
+}
+
+.col-mapel {
+  width: 17%;
+}
+
+.col-nohp {
+  width: 15%;
+}
+
+.col-email {
+  width: 25%;
+}
+
+.col-status {
+  width: 10%;
+}
+
+.col-aksi {
+  width: 15%;
+}
+
+/* ===== TABLE HEADER ===== */
 .tentor-table thead {
-  background: #666;
-  color: white;
+  background: #166534;
+  color: #ffffff;
 }
 
 .tentor-table th {
-  padding: 15px;
+  padding: 16px;
   text-align: left;
+  font-size: 14px;
+  font-weight: 600;
+  letter-spacing: 0.3px;
 }
 
+/* ===== TABLE BODY ===== */
 .tentor-table td {
-  padding: 15px;
-  background: #efefef;
-  border-bottom: 10px solid white;
+  padding: 16px;
+  font-size: 14px;
+  color: #374151;
+  border-bottom: 1px solid #e5e7eb;
+  background: #ffffff;
+
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.tentor-table tbody tr {
+  background: #ffffff;
+  transition: 0.2s ease;
+}
+
+.tentor-table tbody tr:hover td {
+  background: #f0fdf4;
+}
+
+.tentor-table tbody tr:last-child td {
+  border-bottom: none;
+}
+
+/* ===== STATUS BADGE ===== */
+.status-badge {
+  display: inline-block;
+  padding: 6px 12px;
+  border-radius: 999px;
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.status-badge.aktif {
+  background: #dcfce7;
+  color: #166534;
+}
+
+.status-badge.nonaktif {
+  background: #fee2e2;
+  color: #991b1b;
+}
+
+/* ===== ACTION BUTTON ===== */
+.aksi {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  white-space: nowrap;
 }
 
 .aksi button {
-  margin-right: 8px;
-  padding: 6px 10px;
   border: none;
+  border-radius: 8px;
+  padding: 8px 14px;
+  font-size: 13px;
+  font-weight: 600;
   cursor: pointer;
+  transition: 0.2s ease;
 }
 
 .btn-edit {
-  background: #ddd;
+  background: #e0f2fe;
+  color: #0369a1;
+}
+
+.btn-edit:hover {
+  background: #bae6fd;
+  transform: translateY(-1px);
 }
 
 .btn-delete {
-  background: #ddd;
+  background: #fee2e2;
+  color: #b91c1c;
 }
-/* ===== MODAL ===== */
+
+.btn-delete:hover {
+  background: #fecaca;
+  transform: translateY(-1px);
+}
+
+/* ===== EMPTY DATA ===== */
+.empty-data {
+  text-align: center;
+  color: #6b7280;
+  padding: 24px !important;
+}
+
+/* ===== MODAL OVERLAY ===== */
 .modal-overlay {
   position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: rgba(0, 0, 0, 0.5);
+  inset: 0;
+  background: rgba(15, 23, 42, 0.55);
+  backdrop-filter: blur(4px);
   display: flex;
   justify-content: center;
   align-items: center;
+  z-index: 999;
+  padding: 20px;
 }
 
+/* ===== MODAL ===== */
 .modal {
-  background: white;
-  padding: 30px;
-  width: 400px;
-  border-radius: 10px;
+  width: 430px;
+  max-width: 100%;
+  background: #ffffff;
+  padding: 28px;
+  border-radius: 18px;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
   display: flex;
   flex-direction: column;
-  gap: 15px;
+  gap: 14px;
+  animation: modalFade 0.25s ease;
+}
+
+.modal h2 {
+  margin: 0 0 8px;
+  color: #14532d;
+  font-size: 24px;
+  font-weight: 700;
 }
 
 .modal input,
 .modal select {
-  padding: 10px;
-  border-radius: 6px;
-  border: 1px solid #ccc;
+  width: 100%;
+  padding: 12px 14px;
+  border-radius: 10px;
+  border: 1px solid #d1d5db;
+  font-size: 14px;
+  outline: none;
+  background: #ffffff;
+  transition: 0.2s ease;
 }
 
+.modal input:focus,
+.modal select:focus {
+  border-color: #16a34a;
+  box-shadow: 0 0 0 3px rgba(22, 163, 74, 0.12);
+}
+
+/* ===== MODAL BUTTON ===== */
 .modal-buttons {
   display: flex;
-  justify-content: space-between;
+  gap: 10px;
+  margin-top: 8px;
+}
+
+.modal-buttons button {
+  flex: 1;
+  border: none;
+  border-radius: 10px;
+  padding: 12px;
+  font-size: 14px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: 0.2s ease;
+}
+
+.btn-save {
+  background: #166534;
+  color: #ffffff;
+}
+
+.btn-save:hover {
+  background: #14532d;
+}
+
+.btn-cancel {
+  background: #e5e7eb;
+  color: #374151;
+}
+
+.btn-cancel:hover {
+  background: #d1d5db;
+}
+
+/* ===== ANIMATION ===== */
+@keyframes modalFade {
+  from {
+    opacity: 0;
+    transform: translateY(12px) scale(0.97);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+/* ===== RESPONSIVE ===== */
+@media (max-width: 768px) {
+  .tentor-page {
+    padding: 20px;
+  }
+
+  .tentor-page h1 {
+    font-size: 26px;
+  }
+
+  .tentor-toolbar {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .tentor-toolbar input,
+  .btn-add {
+    width: 100%;
+  }
+
+  .tentor-table-card {
+    overflow-x: auto;
+  }
+
+  .tentor-table {
+    min-width: 860px;
+  }
+
+  .modal {
+    width: 100%;
+  }
 }

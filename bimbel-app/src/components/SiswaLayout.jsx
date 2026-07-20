@@ -1,58 +1,91 @@
-import { Outlet, useNavigate } from "react-router-dom";
+import { Outlet, useNavigate, useLocation } from "react-router-dom";
+import "./SiswaLayout.css";
 
 export default function SiswaLayout() {
   const siswa = JSON.parse(localStorage.getItem("user")) || {};
   const navigate = useNavigate();
+  const location = useLocation();
 
   const logout = () => {
     localStorage.clear();
     navigate("/");
   };
 
+  const menuItems = [
+    {
+      label: "Dashboard",
+      path: "/dashboard-siswa",
+    },
+    {
+      label: "Data Diri",
+      path: "/siswa/data-diri",
+    },
+    {
+      label: "Jadwal",
+      path: "/siswa/jadwal",
+    },
+    {
+      label: "Nilai",
+      path: "/siswa/nilai",
+    },
+    {
+      label: "Absensi",
+      path: "/siswa/absensi",
+    },
+    {
+      label: "Pembayaran",
+      path: "/siswa/pembayaran",
+    },
+    {
+      label: "Pengumuman",
+      path: "/siswa/pengumuman",
+    },
+  ];
+
   return (
-    <div style={{ display: "flex", height: "100vh" }}>
-      {/* SIDEBAR */}
-      <div style={styles.sidebar}>
-        <h3>{siswa.nama}</h3>
+    <div className="siswa-layout">
+      <aside className="siswa-sidebar">
+        <div className="sidebar-brand">
+          <div className="brand-logo">B</div>
+          <div>
+            <h2>BIMBELKU</h2>
+            <p>Portal Siswa</p>
+          </div>
+        </div>
 
-        <button onClick={() => navigate("/dashboard-siswa")}>Dashboard</button>
-        <button onClick={() => navigate("/siswa/data-diri")}>Data Diri</button>
-        <button onClick={() => navigate("/siswa/jadwal")}>Jadwal</button>
-        <button onClick={() => navigate("/siswa/nilai")}>Nilai</button>
-        <button onClick={() => navigate("/siswa/absensi")}>Absensi</button>
-        <button onClick={() => navigate("/siswa/pembayaran")}>
-          Pembayaran
-        </button>
-        <button onClick={() => navigate("/siswa/pengumuman")}>
-          Pengumuman
-        </button>
+        <div className="sidebar-profile">
+          <div className="profile-avatar">
+            {siswa.nama ? siswa.nama.charAt(0).toUpperCase() : "S"}
+          </div>
 
-        <button onClick={logout} style={{ marginTop: "20px" }}>
+          <div>
+            <h3>{siswa.nama || "Siswa"}</h3>
+            <p>{siswa.email || "siswa@bimbelku.com"}</p>
+          </div>
+        </div>
+
+        <nav className="sidebar-menu">
+          {menuItems.map((item) => (
+            <button
+              key={item.path}
+              onClick={() => navigate(item.path)}
+              className={location.pathname === item.path ? "active" : ""}
+            >
+              <span>{item.icon}</span>
+              {item.label}
+            </button>
+          ))}
+        </nav>
+
+        <button className="logout-btn" onClick={logout}>
+          <span>🚪</span>
           Logout
         </button>
-      </div>
+      </aside>
 
-      {/* CONTENT */}
-      <div style={styles.content}>
+      <main className="siswa-main">
         <Outlet />
-      </div>
+      </main>
     </div>
   );
 }
-
-const styles = {
-  sidebar: {
-    width: "220px",
-    background: "#2c3e50",
-    color: "white",
-    padding: "20px",
-    display: "flex",
-    flexDirection: "column",
-    gap: "10px",
-  },
-  content: {
-    flex: 1,
-    padding: "20px",
-    background: "#f5f6fa",
-  },
-};

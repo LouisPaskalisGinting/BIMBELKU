@@ -1,0 +1,108 @@
+.absensi-siswa-container {
+  padding: 24px;
+  background-color: #f5f7fb;
+  min-height: 100vh;
+}
+
+.absensi-siswa-card {
+  background-color: #ffffff;
+  border-radius: 14px;
+  padding: 24px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+}
+
+.absensi-siswa-title {
+  margin-bottom: 20px;
+  color: #1f2937;
+  font-size: 24px;
+  font-weight: 700;
+}
+
+.absensi-loading {
+  color: #6b7280;
+  font-size: 16px;
+}
+
+.absensi-table-wrapper {
+  width: 100%;
+  overflow-x: auto;
+}
+
+.absensi-table {
+  width: 100%;
+  border-collapse: collapse;
+  background-color: #ffffff;
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+.absensi-table thead {
+  background-color: #2563eb;
+  color: white;
+}
+
+.absensi-table th {
+  padding: 14px 16px;
+  text-align: left;
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.absensi-table td {
+  padding: 14px 16px;
+  border-bottom: 1px solid #e5e7eb;
+  font-size: 14px;
+  color: #374151;
+}
+
+.absensi-table tbody tr:hover {
+  background-color: #f3f4f6;
+}
+
+.absensi-empty {
+  text-align: center;
+  padding: 24px;
+  color: #6b7280;
+  font-style: italic;
+}
+
+.status-hadir {
+  color: #16a34a;
+  font-weight: 600;
+}
+
+.status-izin {
+  color: #ca8a04;
+  font-weight: 600;
+}
+
+.status-sakit {
+  color: #2563eb;
+  font-weight: 600;
+}
+
+.status-alfa {
+  color: #dc2626;
+  font-weight: 600;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .absensi-siswa-container {
+    padding: 14px;
+  }
+
+  .absensi-siswa-card {
+    padding: 16px;
+  }
+
+  .absensi-siswa-title {
+    font-size: 20px;
+  }
+
+  .absensi-table th,
+  .absensi-table td {
+    padding: 12px;
+    font-size: 13px;
+  }
+}

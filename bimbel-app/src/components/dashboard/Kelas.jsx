@@ -48,6 +48,14 @@ export default function Kelas() {
     });
   };
 
+  const resetForm = () => {
+    setForm({
+      nama_kelas: "",
+      program_id: "",
+    });
+    setEditId(null);
+  };
+
   const handleSubmit = async () => {
     if (!form.nama_kelas || !form.program_id) {
       alert("Nama kelas dan program wajib diisi");
@@ -78,15 +86,11 @@ export default function Kelas() {
         });
       }
 
-      setForm({
-        nama_kelas: "",
-        program_id: "",
-      });
-
-      setEditId(null);
+      resetForm();
       fetchData();
     } catch (err) {
       console.error("Gagal menyimpan kelas:", err);
+      alert("Gagal menyimpan kelas");
     }
   };
 
@@ -101,7 +105,6 @@ export default function Kelas() {
 
   const handleDelete = async (id) => {
     const yakin = window.confirm("Yakin ingin menghapus kelas ini?");
-
     if (!yakin) return;
 
     try {
@@ -112,6 +115,7 @@ export default function Kelas() {
       fetchData();
     } catch (err) {
       console.error("Gagal menghapus kelas:", err);
+      alert("Gagal menghapus kelas");
     }
   };
 
@@ -123,75 +127,90 @@ export default function Kelas() {
     <div className="kelas-container">
       <h1>Data Kelas</h1>
 
-      <div className="kelas-form">
-        <input
-          name="nama_kelas"
-          placeholder="Nama Kelas"
-          value={form.nama_kelas}
-          onChange={handleChange}
-        />
+      <div className="kelas-form-card">
+        <h2>{editId ? "Edit Kelas" : "Tambah Kelas"}</h2>
 
-        <select
-          name="program_id"
-          value={form.program_id}
-          onChange={handleChange}
-        >
-          <option value="">Pilih Program</option>
+        <div className="kelas-form">
+          <input
+            name="nama_kelas"
+            placeholder="Nama Kelas"
+            value={form.nama_kelas}
+            onChange={handleChange}
+          />
 
-          {programList.map((p) => (
-            <option key={p.id} value={p.id}>
-              {p.nama_program}
-            </option>
-          ))}
-        </select>
-
-        <button onClick={handleSubmit}>{editId ? "Update" : "Tambah"}</button>
-
-        {editId && (
-          <button
-            type="button"
-            onClick={() => {
-              setEditId(null);
-              setForm({
-                nama_kelas: "",
-                program_id: "",
-              });
-            }}
+          <select
+            name="program_id"
+            value={form.program_id}
+            onChange={handleChange}
           >
-            Batal
+            <option value="">Pilih Program</option>
+
+            {programList.map((p) => (
+              <option key={p.id} value={p.id}>
+                {p.nama_program}
+              </option>
+            ))}
+          </select>
+
+          <button className="btn-submit" onClick={handleSubmit}>
+            {editId ? "Update" : "Tambah"}
           </button>
-        )}
+
+          {editId && (
+            <button type="button" className="btn-cancel" onClick={resetForm}>
+              Batal
+            </button>
+          )}
+        </div>
       </div>
 
-      <table className="kelas-table">
-        <thead>
-          <tr>
-            <th>Nama Kelas</th>
-            <th>Program</th>
-            <th>Aksi</th>
-          </tr>
-        </thead>
-
-        <tbody>
-          {kelas.length === 0 ? (
+      <div className="kelas-table-card">
+        <table className="kelas-table">
+          <thead>
             <tr>
-              <td colSpan="3">Belum ada data kelas</td>
+              <th>Nama Kelas</th>
+              <th>Program</th>
+              <th>Aksi</th>
             </tr>
-          ) : (
-            kelas.map((k) => (
-              <tr key={k.id}>
-                <td>{k.nama_kelas}</td>
-                <td>{k.nama_program || "-"}</td>
-                <td>
-                  <button onClick={() => handleDetail(k.id)}>Detail</button>
-                  <button onClick={() => handleEdit(k)}>Edit</button>
-                  <button onClick={() => handleDelete(k.id)}>Delete</button>
+          </thead>
+
+          <tbody>
+            {kelas.length === 0 ? (
+              <tr>
+                <td colSpan="3" className="empty-data">
+                  Belum ada data kelas
                 </td>
               </tr>
-            ))
-          )}
-        </tbody>
-      </table>
+            ) : (
+              kelas.map((k) => (
+                <tr key={k.id}>
+                  <td>{k.nama_kelas}</td>
+                  <td>{k.nama_program || "-"}</td>
+                  <td className="aksi">
+                    <button
+                      className="btn-detail"
+                      onClick={() => handleDetail(k.id)}
+                    >
+                      Detail
+                    </button>
+
+                    <button className="btn-edit" onClick={() => handleEdit(k)}>
+                      Edit
+                    </button>
+
+                    <button
+                      className="btn-delete"
+                      onClick={() => handleDelete(k.id)}
+                    >
+                      Delete
+                    </button>
+                  </td>
+                </tr>
+              ))
+            )}
+          </tbody>
+        </table>
+      </div>
     </div>
   );
 }

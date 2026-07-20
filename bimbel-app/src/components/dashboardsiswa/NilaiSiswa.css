@@ -1,0 +1,135 @@
+/* NilaiSiswa.css */
+
+.nilai-siswa-container {
+  padding: 24px;
+  background-color: #f4f7fb;
+  min-height: 100vh;
+  box-sizing: border-box;
+}
+
+.nilai-siswa-card {
+  background-color: #ffffff;
+  padding: 24px;
+  border-radius: 16px;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.08);
+  border: 1px solid #e5e7eb;
+}
+
+.nilai-siswa-title {
+  margin-bottom: 20px;
+  color: #1f2937;
+  font-size: 26px;
+  font-weight: 700;
+}
+
+.nilai-filter {
+  margin-bottom: 24px;
+}
+
+.nilai-filter label {
+  display: block;
+  margin-bottom: 8px;
+  color: #374151;
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.nilai-filter select {
+  width: 100%;
+  max-width: 350px;
+  padding: 12px 14px;
+  border: 1px solid #d1d5db;
+  border-radius: 10px;
+  background-color: white;
+  color: #111827;
+  font-size: 14px;
+  outline: none;
+  cursor: pointer;
+  transition: 0.2s ease;
+}
+
+.nilai-filter select:focus {
+  border-color: #2563eb;
+  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.15);
+}
+
+.nilai-table-wrapper {
+  width: 100%;
+  overflow-x: auto;
+}
+
+.nilai-table {
+  width: 100%;
+  border-collapse: collapse;
+  background-color: #ffffff;
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+.nilai-table thead {
+  background: linear-gradient(135deg, #2563eb, #1e40af);
+  color: white;
+}
+
+.nilai-table th {
+  padding: 15px 16px;
+  text-align: left;
+  font-size: 14px;
+  font-weight: 700;
+}
+
+.nilai-table td {
+  padding: 14px 16px;
+  border-bottom: 1px solid #e5e7eb;
+  font-size: 14px;
+  color: #374151;
+}
+
+.nilai-table tbody tr:hover {
+  background-color: #f3f6ff;
+}
+
+.nilai-table tbody tr:last-child td {
+  border-bottom: none;
+}
+
+.nilai-angka {
+  display: inline-block;
+  padding: 6px 14px;
+  background-color: #dcfce7;
+  color: #15803d;
+  border-radius: 20px;
+  font-weight: 700;
+}
+
+.nilai-empty {
+  text-align: center;
+  padding: 28px;
+  color: #6b7280;
+  font-style: italic;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .nilai-siswa-container {
+    padding: 16px;
+  }
+
+  .nilai-siswa-card {
+    padding: 18px;
+  }
+
+  .nilai-siswa-title {
+    font-size: 22px;
+  }
+
+  .nilai-filter select {
+    max-width: 100%;
+  }
+
+  .nilai-table th,
+  .nilai-table td {
+    padding: 12px;
+    font-size: 13px;
+  }
+}

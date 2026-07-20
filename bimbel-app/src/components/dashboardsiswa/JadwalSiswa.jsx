@@ -1,9 +1,9 @@
 import { useEffect, useState } from "react";
+import "./JadwalSiswa.css";
 
 export default function JadwalSiswa() {
   const [jadwal, setJadwal] = useState([]);
 
-  // ambil data siswa dari localStorage
   const siswa = JSON.parse(localStorage.getItem("siswa"));
   const siswaId = siswa?.id;
 
@@ -26,40 +26,46 @@ export default function JadwalSiswa() {
   }, [siswaId]);
 
   return (
-    <div style={{ padding: "20px" }}>
-      <h2>Jadwal Saya</h2>
+    <div className="jadwal-siswa-container">
+      <div className="jadwal-siswa-card">
+        <h2 className="jadwal-siswa-title">📅 Jadwal Saya</h2>
 
-      <table border="1" cellPadding="10" width="100%">
-        <thead>
-          <tr>
-            <th>Kelas</th>
-            <th>Mata Pelajaran</th>
-            <th>Tentor</th>
-            <th>Hari</th>
-            <th>Jam</th>
-          </tr>
-        </thead>
-
-        <tbody>
-          {jadwal.length > 0 ? (
-            jadwal.map((j) => (
-              <tr key={j.id}>
-                <td>{j.nama_kelas}</td>
-                <td>{j.mata_pelajaran}</td>
-                <td>{j.tentor}</td>
-                <td>{j.hari}</td>
-                <td>{j.jam}</td>
+        <div className="jadwal-table-wrapper">
+          <table className="jadwal-table">
+            <thead>
+              <tr>
+                <th>Kelas</th>
+                <th>Mata Pelajaran</th>
+                <th>Tentor</th>
+                <th>Hari</th>
+                <th>Jam</th>
               </tr>
-            ))
-          ) : (
-            <tr>
-              <td colSpan="5" style={{ textAlign: "center" }}>
-                Belum ada jadwal
-              </td>
-            </tr>
-          )}
-        </tbody>
-      </table>
+            </thead>
+
+            <tbody>
+              {jadwal.length > 0 ? (
+                jadwal.map((j) => (
+                  <tr key={j.id}>
+                    <td>{j.nama_kelas}</td>
+                    <td className="jadwal-mapel">{j.mata_pelajaran}</td>
+                    <td>{j.tentor}</td>
+                    <td>
+                      <span className="jadwal-hari">{j.hari}</span>
+                    </td>
+                    <td className="jadwal-jam">{j.jam}</td>
+                  </tr>
+                ))
+              ) : (
+                <tr>
+                  <td colSpan="5" className="jadwal-empty">
+                    Belum ada jadwal
+                  </td>
+                </tr>
+              )}
+            </tbody>
+          </table>
+        </div>
+      </div>
     </div>
   );
 }

@@ -6,8 +6,20 @@ const db = require("../db");
 // GET semua kelas
 // ===============================
 router.get("/", (req, res) => {
-  db.query("SELECT * FROM kelas", (err, result) => {
-    if (err) return res.status(500).json(err);
+  const sql = `
+    SELECT 
+      kelas.*,
+      program.nama_program
+    FROM kelas
+    LEFT JOIN program ON kelas.program_id = program.id
+  `;
+
+  db.query(sql, (err, result) => {
+    if (err) {
+      console.log("ERROR GET KELAS:", err);
+      return res.status(500).json(err);
+    }
+
     res.json(result);
   });
 });
@@ -18,9 +30,28 @@ router.get("/", (req, res) => {
 router.get("/:id", (req, res) => {
   const id = req.params.id;
 
-  db.query("SELECT * FROM kelas WHERE id = ?", [id], (err, result) => {
-    if (err) return res.status(500).json(err);
-    res.json(result);
+  const sql = `
+    SELECT 
+      kelas.*,
+      program.nama_program
+    FROM kelas
+    LEFT JOIN program ON kelas.program_id = program.id
+    WHERE kelas.id = ?
+  `;
+
+  db.query(sql, [id], (err, result) => {
+    if (err) {
+      console.log("ERROR GET DETAIL KELAS:", err);
+      return res.status(500).json(err);
+    }
+
+    if (result.length === 0) {
+      return res.status(404).json({
+        message: "Kelas tidak ditemukan",
+      });
+    }
+
+    res.json(result[0]);
   });
 });
 
@@ -28,44 +59,77 @@ router.get("/:id", (req, res) => {
 // POST tambah kelas
 // ===============================
 router.post("/", (req, res) => {
-  const { nama_kelas, program } = req.body;
+  const { nama_kelas, program_id } = req.body;
 
-  db.query(
-    "INSERT INTO kelas (nama_kelas, program) VALUES (?, ?)",
-    [nama_kelas, program],
-    (err) => {
-      if (err) {
-        console.log(err);
-        return res.status(500).json(err);
-      }
-      res.json({ message: "Kelas berhasil ditambah" });
+  if (!nama_kelas || !program_id) {
+    return res.status(400).json({
+      message: "Nama kelas dan program wajib diisi",
+    });
+  }
+
+  const sql = `
+    INSERT INTO kelas (nama_kelas, program_id)
+    VALUES (?, ?)
+  `;
+
+  db.query(sql, [nama_kelas, program_id], (err) => {
+    if (err) {
+      console.log("ERROR TAMBAH KELAS:", err);
+      return res.status(500).json(err);
     }
-  );
+
+    res.json({
+      message: "Kelas berhasil ditambah",
+    });
+  });
 });
 
 // ===============================
 // PUT edit kelas
 // ===============================
 router.put("/:id", (req, res) => {
-  const { nama_kelas, program, tentor, jadwal } = req.body;
+  const id = req.params.id;
+  const { nama_kelas, program_id } = req.body;
 
-  db.query(
-    "UPDATE kelas SET Kelas=?, program=?, tentor=?, jadwal=? WHERE id=?",
-    [nama_kelas, program, tentor, jadwal, req.params.id],
-    (err) => {
-      if (err) return res.json(err);
-      res.json({ message: "Kelas berhasil diupdate" });
+  if (!nama_kelas || !program_id) {
+    return res.status(400).json({
+      message: "Nama kelas dan program wajib diisi",
+    });
+  }
+
+  const sql = `
+    UPDATE kelas
+    SET nama_kelas = ?, program_id = ?
+    WHERE id = ?
+  `;
+
+  db.query(sql, [nama_kelas, program_id, id], (err) => {
+    if (err) {
+      console.log("ERROR UPDATE KELAS:", err);
+      return res.status(500).json(err);
     }
-  );
+
+    res.json({
+      message: "Kelas berhasil diupdate",
+    });
+  });
 });
 
 // ===============================
 // DELETE kelas
 // ===============================
 router.delete("/:id", (req, res) => {
-  db.query("DELETE FROM kelas WHERE id=?", [req.params.id], (err) => {
-    if (err) return res.json(err);
-    res.json({ message: "Kelas dihapus" });
+  const id = req.params.id;
+
+  db.query("DELETE FROM kelas WHERE id = ?", [id], (err) => {
+    if (err) {
+      console.log("ERROR DELETE KELAS:", err);
+      return res.status(500).json(err);
+    }
+
+    res.json({
+      message: "Kelas dihapus",
+    });
   });
 });
 

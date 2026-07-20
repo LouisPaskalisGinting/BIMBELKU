@@ -11,27 +11,42 @@ router.get("/hari-ini", (req, res) => {
     .toLowerCase();
 
   const sql = `
-    SELECT * FROM jadwal 
-    WHERE LOWER(hari) LIKE ?
+    SELECT 
+      jadwal.*,
+      kelas.nama_kelas AS kelas,
+      kelas.nama_kelas,
+      program.nama_program
+    FROM jadwal
+    LEFT JOIN kelas ON kelas.id = jadwal.kelas_id
+    LEFT JOIN program ON program.id = kelas.program_id
+    WHERE LOWER(jadwal.hari) LIKE ?
+    ORDER BY jadwal.jam ASC
   `;
 
   db.query(sql, [`%${hariIni}%`], (err, result) => {
-    if (err) return res.status(500).json(err);
+    if (err) {
+      console.log("ERROR GET JADWAL HARI INI:", err);
+      return res.status(500).json(err);
+    }
+
     res.json(result);
   });
 });
 
 // ===============================
-// GET semua jadwal (UNTUK ADMIN)
+// GET SEMUA JADWAL UNTUK ADMIN
 // ===============================
 router.get("/", (req, res) => {
   const sql = `
     SELECT 
-      jadwal.*, 
-      kelas.nama_kelas AS kelas
+      jadwal.*,
+      kelas.nama_kelas AS kelas,
+      kelas.nama_kelas,
+      program.nama_program
     FROM jadwal
-    LEFT JOIN kelas 
-    ON kelas.id = jadwal.kelas_bimbel_id
+    LEFT JOIN kelas ON kelas.id = jadwal.kelas_id
+    LEFT JOIN program ON program.id = kelas.program_id
+    ORDER BY jadwal.id DESC
   `;
 
   db.query(sql, (err, result) => {
@@ -39,118 +54,236 @@ router.get("/", (req, res) => {
       console.log("ERROR GET JADWAL:", err);
       return res.status(500).json(err);
     }
+
     res.json(result);
   });
 });
 
 // ===============================
-// GET jadwal berdasarkan siswa
+// GET JADWAL BERDASARKAN SISWA
 // ===============================
 router.get("/siswa/:id", (req, res) => {
+  const siswaId = req.params.id;
+
   const sql = `
-    SELECT jadwal.*, kelas.nama_kelas
+    SELECT 
+      jadwal.*,
+      kelas.nama_kelas AS kelas,
+      kelas.nama_kelas,
+      program.nama_program
     FROM siswa
-    JOIN jadwal 
-      ON siswa.kelas_bimbel_id = jadwal.kelas_bimbel_id
-    LEFT JOIN kelas 
-      ON kelas.id = jadwal.kelas_bimbel_id
+    JOIN jadwal ON siswa.kelas_id = jadwal.kelas_id
+    LEFT JOIN kelas ON kelas.id = jadwal.kelas_id
+    LEFT JOIN program ON program.id = kelas.program_id
     WHERE siswa.id = ?
+    ORDER BY jadwal.id DESC
   `;
 
-  db.query(sql, [req.params.id], (err, result) => {
+  db.query(sql, [siswaId], (err, result) => {
     if (err) {
       console.log("ERROR JADWAL SISWA:", err);
       return res.status(500).json(err);
     }
+
     res.json(result);
   });
 });
+
 // ===============================
-// GET jadwal berdasarkan tentor
+// GET JADWAL BERDASARKAN TENTOR
 // ===============================
 router.get("/tentor/:id", (req, res) => {
   const userId = req.params.id;
 
-  // ambil nama tentor dari tabel user
-  db.query("SELECT nama FROM user WHERE id=?", [userId], (err, userResult) => {
-    if (err) return res.status(500).json(err);
+  db.query(
+    "SELECT nama FROM user WHERE id = ?",
+    [userId],
+    (err, userResult) => {
+      if (err) {
+        console.log("ERROR GET USER TENTOR:", err);
+        return res.status(500).json(err);
+      }
 
-    if (userResult.length === 0) {
-      return res.json([]);
-    }
+      if (userResult.length === 0) {
+        return res.json([]);
+      }
 
-    const namaTentor = userResult[0].nama;
+      const namaTentor = userResult[0].nama;
 
-    // ambil jadwal berdasarkan nama
-    db.query(
-      `SELECT 
-          jadwal.*, 
-          kelas.nama_kelas AS kelas
-        FROM jadwal
-        LEFT JOIN kelas 
-          ON kelas.id = jadwal.kelas_bimbel_id
-        WHERE jadwal.tentor = ?`,
-      [namaTentor],
-      (err, result) => {
+      const sql = `
+      SELECT 
+        jadwal.*,
+        kelas.nama_kelas AS kelas,
+        kelas.nama_kelas,
+        program.nama_program
+      FROM jadwal
+      LEFT JOIN kelas ON kelas.id = jadwal.kelas_id
+      LEFT JOIN program ON program.id = kelas.program_id
+      WHERE jadwal.tentor = ?
+      ORDER BY jadwal.id DESC
+    `;
+
+      db.query(sql, [namaTentor], (err, result) => {
         if (err) {
           console.log("ERROR JADWAL TENTOR:", err);
           return res.status(500).json(err);
         }
 
         res.json(result);
+      });
+    }
+  );
+});
+
+// ===============================
+// POST TAMBAH JADWAL
+// ===============================
+router.post("/", (req, res) => {
+  const { kelas_id, mata_pelajaran, tentor, hari, jam, tentor_id } = req.body;
+
+  if (!kelas_id || !mata_pelajaran || !tentor || !hari || !jam) {
+    return res.status(400).json({
+      message: "Kelas, mata pelajaran, tentor, hari, dan jam wajib diisi",
+      body_diterima: req.body,
+    });
+  }
+
+  const sqlKelas = `
+    SELECT nama_kelas 
+    FROM kelas 
+    WHERE id = ?
+  `;
+
+  db.query(sqlKelas, [kelas_id], (err, kelasResult) => {
+    if (err) {
+      console.log("ERROR CEK KELAS:", err);
+      return res.status(500).json(err);
+    }
+
+    if (kelasResult.length === 0) {
+      return res.status(404).json({
+        message: "Kelas tidak ditemukan",
+      });
+    }
+
+    const namaKelas = kelasResult[0].nama_kelas;
+
+    const sql = `
+      INSERT INTO jadwal 
+      (kelas, kelas_id, mata_pelajaran, tentor, hari, jam, tentor_id)
+      VALUES (?, ?, ?, ?, ?, ?, ?)
+    `;
+
+    db.query(
+      sql,
+      [
+        namaKelas,
+        kelas_id,
+        mata_pelajaran,
+        tentor,
+        hari,
+        jam,
+        tentor_id || null,
+      ],
+      (err) => {
+        if (err) {
+          console.log("ERROR TAMBAH JADWAL:", err);
+          return res.status(500).json(err);
+        }
+
+        res.json({
+          message: "Jadwal berhasil ditambah",
+        });
       }
     );
   });
 });
 
 // ===============================
-// POST tambah jadwal
-// ===============================
-router.post("/", (req, res) => {
-  const { kelas_bimbel_id, mata_pelajaran, tentor, hari, jam } = req.body;
-
-  db.query(
-    "INSERT INTO jadwal (kelas_bimbel_id, mata_pelajaran, tentor, hari, jam) VALUES (?, ?, ?, ?, ?)",
-    [kelas_bimbel_id, mata_pelajaran, tentor, hari, jam],
-    (err) => {
-      if (err) {
-        console.log(err);
-        return res.status(500).json(err);
-      }
-      res.json({ message: "Jadwal berhasil ditambah" });
-    }
-  );
-});
-
-// ===============================
-// PUT update jadwal
+// PUT UPDATE JADWAL
 // ===============================
 router.put("/:id", (req, res) => {
-  const { kelas_bimbel_id, mata_pelajaran, tentor, hari, jam } = req.body;
+  const { kelas_id, mata_pelajaran, tentor, hari, jam, tentor_id } = req.body;
 
-  db.query(
-    "UPDATE jadwal SET kelas_bimbel_id=?, mata_pelajaran=?, tentor=?, hari=?, jam=? WHERE id=?",
-    [kelas_bimbel_id, mata_pelajaran, tentor, hari, jam, req.params.id],
-    (err) => {
-      if (err) {
-        console.log(err);
-        return res.status(500).json(err);
-      }
-      res.json({ message: "Jadwal diupdate" });
+  if (!kelas_id || !mata_pelajaran || !tentor || !hari || !jam) {
+    return res.status(400).json({
+      message: "Kelas, mata pelajaran, tentor, hari, dan jam wajib diisi",
+      body_diterima: req.body,
+    });
+  }
+
+  const sqlKelas = `
+    SELECT nama_kelas 
+    FROM kelas 
+    WHERE id = ?
+  `;
+
+  db.query(sqlKelas, [kelas_id], (err, kelasResult) => {
+    if (err) {
+      console.log("ERROR CEK KELAS:", err);
+      return res.status(500).json(err);
     }
-  );
+
+    if (kelasResult.length === 0) {
+      return res.status(404).json({
+        message: "Kelas tidak ditemukan",
+      });
+    }
+
+    const namaKelas = kelasResult[0].nama_kelas;
+
+    const sql = `
+      UPDATE jadwal
+      SET 
+        kelas = ?,
+        kelas_id = ?,
+        mata_pelajaran = ?,
+        tentor = ?,
+        hari = ?,
+        jam = ?,
+        tentor_id = ?
+      WHERE id = ?
+    `;
+
+    db.query(
+      sql,
+      [
+        namaKelas,
+        kelas_id,
+        mata_pelajaran,
+        tentor,
+        hari,
+        jam,
+        tentor_id || null,
+        req.params.id,
+      ],
+      (err) => {
+        if (err) {
+          console.log("ERROR UPDATE JADWAL:", err);
+          return res.status(500).json(err);
+        }
+
+        res.json({
+          message: "Jadwal berhasil diupdate",
+        });
+      }
+    );
+  });
 });
 
 // ===============================
-// DELETE jadwal
+// DELETE JADWAL
 // ===============================
 router.delete("/:id", (req, res) => {
-  db.query("DELETE FROM jadwal WHERE id=?", [req.params.id], (err) => {
+  db.query("DELETE FROM jadwal WHERE id = ?", [req.params.id], (err) => {
     if (err) {
-      console.log(err);
+      console.log("ERROR DELETE JADWAL:", err);
       return res.status(500).json(err);
     }
-    res.json({ message: "Jadwal dihapus" });
+
+    res.json({
+      message: "Jadwal dihapus",
+    });
   });
 });
 

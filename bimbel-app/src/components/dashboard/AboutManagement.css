@@ -1,0 +1,54 @@
+.about-management {
+  max-width: 800px;
+
+  margin: 40px auto;
+
+  background: white;
+
+  padding: 30px;
+
+  border-radius: 12px;
+
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.15);
+}
+
+.about-management form {
+  display: flex;
+
+  flex-direction: column;
+
+  gap: 15px;
+}
+
+.about-management input,
+.about-management textarea {
+  padding: 12px;
+
+  border-radius: 8px;
+
+  border: 1px solid #ccc;
+}
+
+.about-management button {
+  padding: 12px;
+
+  background: #1976d2;
+
+  color: white;
+
+  border: none;
+
+  border-radius: 8px;
+
+  cursor: pointer;
+}
+
+.preview-about {
+  width: 100%;
+
+  max-height: 350px;
+
+  object-fit: cover;
+
+  border-radius: 10px;
+}

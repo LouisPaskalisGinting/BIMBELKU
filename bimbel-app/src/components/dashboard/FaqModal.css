@@ -1,0 +1,109 @@
+.faq-modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  z-index: 999;
+}
+
+.faq-modal {
+  width: 650px;
+  max-width: 95%;
+
+  background: white;
+
+  border-radius: 12px;
+
+  padding: 25px;
+
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.25);
+}
+
+.faq-modal h2 {
+  margin-bottom: 20px;
+
+  color: #333;
+}
+
+.faq-modal form {
+  display: flex;
+
+  flex-direction: column;
+
+  gap: 15px;
+}
+
+.faq-modal label {
+  font-weight: 600;
+
+  color: #444;
+}
+
+.faq-modal textarea {
+  resize: vertical;
+
+  border: 1px solid #ccc;
+
+  border-radius: 8px;
+
+  padding: 10px;
+
+  font-size: 15px;
+}
+
+.faq-button-group {
+  display: flex;
+
+  justify-content: flex-end;
+
+  gap: 10px;
+
+  margin-top: 15px;
+}
+
+.btn-save {
+  background: #2e7d32;
+
+  color: white;
+
+  border: none;
+
+  padding: 10px 25px;
+
+  border-radius: 8px;
+
+  cursor: pointer;
+
+  transition: 0.3s;
+}
+
+.btn-save:hover {
+  background: #1b5e20;
+}
+
+.btn-cancel {
+  background: #d32f2f;
+
+  color: white;
+
+  border: none;
+
+  padding: 10px 25px;
+
+  border-radius: 8px;
+
+  cursor: pointer;
+
+  transition: 0.3s;
+}
+
+.btn-cancel:hover {
+  background: #b71c1c;
+}

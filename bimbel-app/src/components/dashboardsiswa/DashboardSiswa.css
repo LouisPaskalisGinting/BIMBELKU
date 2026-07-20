@@ -1,116 +1,123 @@
-/* ================= GLOBAL ================= */
-body {
-  margin: 0;
-  font-family: "Poppins", sans-serif;
-  background: #f4f6f9;
-}
+/* DashboardSiswa.css */
 
-/* ================= CONTAINER ================= */
-.dashboard-container {
-  display: flex;
-  min-height: 100vh;
-}
-
-/* ================= SIDEBAR ================= */
-.sidebar {
-  width: 240px;
-  background: #1e293b;
-  color: white;
-  padding: 20px;
-  display: flex;
-  flex-direction: column;
-}
-
-.sidebar h2 {
-  margin-bottom: 20px;
-}
-
-.sidebar button {
-  padding: 10px;
-  background: transparent;
-  border: none;
-  color: white;
-  text-align: left;
-  cursor: pointer;
-  border-radius: 6px;
-  margin-bottom: 8px;
-  transition: 0.3s;
-}
-
-.sidebar button:hover {
-  background: #334155;
-}
-
-.sidebar .active {
-  background: #3b82f6;
-}
-
-/* ================= LOGOUT ================= */
-.logout-btn {
-  margin-top: auto;
-  padding: 10px;
-  background: red;
-  color: white;
-  border: none;
-  border-radius: 6px;
-  cursor: pointer;
-}
-
-.logout-btn:hover {
-  background: darkred;
-}
-
-/* ================= CONTENT ================= */
 .content {
-  flex: 1;
-  padding: 30px;
+  padding: 24px;
+  background-color: #f4f7fb;
+  min-height: 100vh;
+  box-sizing: border-box;
 }
 
-/* ================= HEADER ================= */
 .header {
-  margin-bottom: 20px;
+  background: linear-gradient(135deg, #2563eb, #1e40af);
+  color: white;
+  padding: 24px;
+  border-radius: 16px;
+  margin-bottom: 24px;
+  box-shadow: 0 6px 16px rgba(37, 99, 235, 0.25);
 }
 
 .header h2 {
-  margin: 0;
+  margin: 0 0 8px 0;
+  font-size: 26px;
+  font-weight: 700;
 }
 
 .header p {
-  color: #666;
+  margin: 0;
+  font-size: 15px;
+  opacity: 0.95;
 }
 
-/* ================= GRID ================= */
 .dashboard-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  grid-template-columns: repeat(4, 1fr);
   gap: 20px;
 }
 
-/* ================= CARD ================= */
 .card {
-  background: white;
-  padding: 20px;
-  border-radius: 12px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
-  transition: 0.3s;
+  background-color: #ffffff;
+  border-radius: 16px;
+  padding: 22px;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.08);
+  transition: 0.25s ease;
+  border: 1px solid #e5e7eb;
 }
 
 .card:hover {
-  transform: translateY(-3px);
+  transform: translateY(-4px);
+  box-shadow: 0 8px 22px rgba(0, 0, 0, 0.12);
 }
 
-/* ================= TEXT ================= */
 .card h3 {
-  margin-bottom: 10px;
+  margin: 0 0 12px 0;
+  font-size: 17px;
+  color: #1f2937;
+  font-weight: 700;
 }
 
 .card p {
-  font-size: 16px;
-  font-weight: 500;
+  margin: 0;
+  color: #4b5563;
+  font-size: 15px;
+  line-height: 1.6;
 }
 
-/* ================= STATUS ================= */
 .status-active {
-  color: green;
-  font-weight: bold;
+  display: inline-block;
+  padding: 6px 14px;
+  background-color: #dcfce7;
+  color: #15803d !important;
+  border-radius: 20px;
+  font-weight: 700;
+  font-size: 14px !important;
+}
+
+/* Loading dan data kosong */
+.content > div,
+body > div {
+  font-family: Arial, sans-serif;
+}
+
+/* Responsive tablet */
+@media (max-width: 1024px) {
+  .dashboard-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+/* Responsive HP */
+@media (max-width: 600px) {
+  .content {
+    padding: 16px;
+  }
+
+  .header {
+    padding: 20px;
+    border-radius: 14px;
+  }
+
+  .header h2 {
+    font-size: 22px;
+  }
+
+  .header p {
+    font-size: 14px;
+  }
+
+  .dashboard-grid {
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+
+  .card {
+    padding: 18px;
+  }
+
+  .card h3 {
+    font-size: 16px;
+  }
+
+  .card p {
+    font-size: 14px;
+  }
 }

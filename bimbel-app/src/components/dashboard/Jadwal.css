@@ -1,36 +1,196 @@
+* {
+  box-sizing: border-box;
+  font-family: "Inter", "Segoe UI", Arial, sans-serif;
+}
+
+/* ===== ROOT PAGE ===== */
 .jadwal-container {
-  padding: 20px;
+  min-height: 100vh;
+  padding: 32px;
+  background: #f4f7f5;
+  color: #1f2937;
 }
 
+/* ===== TITLE ===== */
+.jadwal-container h1 {
+  font-size: 32px;
+  font-weight: 700;
+  margin-bottom: 24px;
+  color: #14532d;
+}
+
+/* ===== FORM CARD ===== */
 .jadwal-form {
+  background: #ffffff;
+  padding: 22px;
+  border-radius: 16px;
+  margin-bottom: 24px;
   display: flex;
-  gap: 10px;
-  margin-bottom: 20px;
+  gap: 12px;
+  align-items: center;
+  flex-wrap: wrap;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
 }
 
-.jadwal-form input {
-  padding: 8px;
+/* ===== INPUT & SELECT ===== */
+.jadwal-form input,
+.jadwal-form select {
+  min-width: 180px;
+  flex: 1;
+  padding: 12px 14px;
+  border: 1px solid #d1d5db;
+  border-radius: 10px;
+  background: #ffffff;
+  color: #374151;
+  font-size: 14px;
+  outline: none;
+  transition: 0.2s ease;
 }
 
+.jadwal-form input:focus,
+.jadwal-form select:focus {
+  border-color: #16a34a;
+  box-shadow: 0 0 0 3px rgba(22, 163, 74, 0.12);
+}
+
+/* ===== FORM BUTTON ===== */
 .jadwal-form button {
-  background: #467545;
-  color: white;
   border: none;
-  padding: 8px 16px;
+  border-radius: 10px;
+  padding: 12px 16px;
+  background: #166534;
+  color: #ffffff;
+  font-size: 14px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: 0.2s ease;
 }
 
+.jadwal-form button:hover {
+  background: #14532d;
+  transform: translateY(-1px);
+}
+
+/* tombol batal */
+.jadwal-form button[type="button"] {
+  background: #e5e7eb;
+  color: #374151;
+}
+
+.jadwal-form button[type="button"]:hover {
+  background: #d1d5db;
+}
+
+/* ===== TABLE ===== */
 .jadwal-table {
   width: 100%;
-  border-collapse: collapse;
+  border-collapse: separate;
+  border-spacing: 0;
+  background: #ffffff;
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
+}
+
+.jadwal-table thead {
+  background: #166534;
+  color: #ffffff;
 }
 
 .jadwal-table th {
-  background: #666;
-  color: white;
-  padding: 10px;
+  padding: 16px;
+  text-align: left;
+  font-size: 14px;
+  font-weight: 600;
+  letter-spacing: 0.3px;
 }
 
 .jadwal-table td {
-  padding: 10px;
-  border-bottom: 1px solid #ddd;
+  padding: 16px;
+  font-size: 14px;
+  color: #374151;
+  background: #ffffff;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.jadwal-table tbody tr {
+  transition: 0.2s ease;
+}
+
+.jadwal-table tbody tr:hover td {
+  background: #f0fdf4;
+}
+
+.jadwal-table tbody tr:last-child td {
+  border-bottom: none;
+}
+
+/* ===== EMPTY DATA ===== */
+.jadwal-table td[colspan="6"] {
+  text-align: center;
+  color: #6b7280;
+  padding: 24px;
+}
+
+/* ===== ACTION BUTTON ===== */
+.jadwal-table td button {
+  border: none;
+  border-radius: 8px;
+  padding: 8px 14px;
+  margin-right: 8px;
+  font-size: 13px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: 0.2s ease;
+}
+
+/* tombol edit */
+.jadwal-table td button:first-child {
+  background: #e0f2fe;
+  color: #0369a1;
+}
+
+.jadwal-table td button:first-child:hover {
+  background: #bae6fd;
+  transform: translateY(-1px);
+}
+
+/* tombol delete */
+.jadwal-table td button:nth-child(2) {
+  background: #fee2e2;
+  color: #b91c1c;
+}
+
+.jadwal-table td button:nth-child(2):hover {
+  background: #fecaca;
+  transform: translateY(-1px);
+}
+
+/* ===== RESPONSIVE ===== */
+@media (max-width: 768px) {
+  .jadwal-container {
+    padding: 20px;
+  }
+
+  .jadwal-container h1 {
+    font-size: 26px;
+  }
+
+  .jadwal-form {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .jadwal-form input,
+  .jadwal-form select,
+  .jadwal-form button {
+    width: 100%;
+    min-width: 100%;
+  }
+
+  .jadwal-table {
+    display: block;
+    overflow-x: auto;
+    white-space: nowrap;
+  }
 }

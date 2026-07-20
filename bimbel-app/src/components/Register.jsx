@@ -16,7 +16,6 @@ export default function Register() {
     password: "",
   });
 
-  // BUKTI PEMBAYARAN
   const [buktiPembayaran, setBuktiPembayaran] = useState(null);
   const [preview, setPreview] = useState(null);
 
@@ -28,7 +27,7 @@ export default function Register() {
     try {
       const res = await fetch("http://localhost:3000/program");
       const data = await res.json();
-      setProgramList(data);
+      setProgramList(Array.isArray(data) ? data : []);
     } catch (error) {
       console.error("Gagal ambil program:", error);
     }
@@ -41,7 +40,6 @@ export default function Register() {
     });
   };
 
-  // HANDLE UPLOAD BUKTI
   const handleBuktiChange = (e) => {
     const file = e.target.files[0];
 
@@ -51,15 +49,27 @@ export default function Register() {
     }
   };
 
+  // VALIDASI FORMAT EMAIL
+  const isValidEmail = (email) => {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return emailRegex.test(email.trim().toLowerCase());
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    // VALIDASI
+    // VALIDASI DATA KOSONG
     for (let key in form) {
       if (!form[key]) {
         alert("Semua data wajib diisi!");
         return;
       }
+    }
+
+    // VALIDASI FORMAT EMAIL
+    if (!isValidEmail(form.email)) {
+      alert("Format email tidak valid! Contoh: nama@gmail.com");
+      return;
     }
 
     if (!buktiPembayaran) {
@@ -68,7 +78,6 @@ export default function Register() {
     }
 
     try {
-      // FORM DATA
       const formData = new FormData();
 
       formData.append("nama", form.nama);
@@ -80,8 +89,6 @@ export default function Register() {
       formData.append("program_id", form.program_id);
       formData.append("email", form.email.trim().toLowerCase());
       formData.append("password", form.password);
-
-      // FILE BUKTI
       formData.append("bukti_pembayaran", buktiPembayaran);
 
       const res = await fetch("http://localhost:3000/register/siswa", {
@@ -152,7 +159,6 @@ export default function Register() {
           onChange={handleChange}
         />
 
-        {/* PROGRAM */}
         <select
           name="program_id"
           value={form.program_id}
@@ -162,14 +168,15 @@ export default function Register() {
 
           {programList.map((p) => (
             <option key={p.id} value={p.id}>
-              {p.nama_program} - Rp {p.harga}
+              {p.nama_program} - Rp {Number(p.harga).toLocaleString("id-ID")}
             </option>
           ))}
         </select>
 
         <input
+          type="email"
           name="email"
-          placeholder="Email"
+          placeholder="Email, contoh: nama@gmail.com"
           value={form.email}
           onChange={handleChange}
         />
@@ -182,14 +189,12 @@ export default function Register() {
           onChange={handleChange}
         />
 
-        {/* UPLOAD BUKTI PEMBAYARAN */}
         <div className="upload-box">
           <label>Upload Bukti Pembayaran</label>
 
           <input type="file" accept="image/*" onChange={handleBuktiChange} />
         </div>
 
-        {/* PREVIEW */}
         {preview && (
           <img src={preview} alt="Preview Bukti" className="preview-image" />
         )}
